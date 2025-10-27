@@ -143,12 +143,50 @@ function calculateIndividualPairProbabilities(probabilityResults) {
   return sortedPairs;
 }
 
+function getImpossiblePairs(men, women, probabilityResults) {
+  // Generate all possible pairs
+  const allPossiblePairs = new Set();
+  for (const man of men) {
+    for (const woman of women) {
+      allPossiblePairs.add(`${man}-${woman}`);
+    }
+  }
+
+  // Get pairs that appear in valid combinations
+  const validPairs = new Set();
+  for (const result of probabilityResults) {
+    for (const pair of result.combination) {
+      validPairs.add(`${pair.man}-${pair.woman}`);
+    }
+  }
+
+  // Find impossible pairs (0% probability)
+  const impossiblePairs = [];
+  for (const pairKey of allPossiblePairs) {
+    if (!validPairs.has(pairKey)) {
+      const [man, woman] = pairKey.split('-');
+      impossiblePairs.push({ man, woman, pair: pairKey });
+    }
+  }
+
+  // Sort alphabetically by man's name, then woman's name
+  impossiblePairs.sort((a, b) => {
+    if (a.man !== b.man) {
+      return a.man.localeCompare(b.man);
+    }
+    return a.woman.localeCompare(b.woman);
+  });
+
+  return impossiblePairs;
+}
+
 module.exports = {
   calculateBaseProbability,
   calculateBayesianProbability,
   calculateProbabilityDistribution,
   getTopProbabilities,
   calculateIndividualPairProbabilities,
+  getImpossiblePairs,
   binomialProbability,
   factorial,
   combination

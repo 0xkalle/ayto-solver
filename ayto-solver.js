@@ -6,7 +6,8 @@ const { isValidCombination, getValidationScore } = require('./validator');
 const {
   calculateProbabilityDistribution,
   getTopProbabilities,
-  calculateIndividualPairProbabilities
+  calculateIndividualPairProbabilities,
+  getImpossiblePairs
 } = require('./probability');
 
 class AYTOSolver {
@@ -107,6 +108,19 @@ class AYTOSolver {
       const [man, woman] = pair.pair.split('-');
       console.log(`${(index + 1).toString().padStart(2)}. ${man} ↔ ${woman}: ${pair.percentage}%`);
     });
+
+    // Display impossible pairs (0% probability)
+    const impossiblePairs = getImpossiblePairs(this.men, this.women, this.probabilityResults);
+
+    if (impossiblePairs.length > 0) {
+      console.log('\n❌ IMPOSSIBLE PAIRS (0% PROBABILITY):');
+      console.log('-'.repeat(80));
+      console.log(`Found ${impossiblePairs.length} impossible pairs that can be ruled out:\n`);
+
+      impossiblePairs.forEach((pair, index) => {
+        console.log(`${(index + 1).toString().padStart(2)}. ${pair.man} ↔ ${pair.woman}`);
+      });
+    }
 
     // Show constraints used
     console.log('\n📋 CONSTRAINTS APPLIED:');
