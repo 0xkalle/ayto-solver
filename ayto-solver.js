@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { menCandidates, womenCandidates, matchboxResults, matchingNights } = require('./data');
+const { menCandidates, womenCandidates, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman } = require('./data');
 const { generateMatchCombinations, combinationToString, getTotalCombinations, getNthMatchCombination } = require('./permutations');
 const { isValidCombination, getValidationScore } = require('./validator');
 const {
@@ -11,11 +11,13 @@ const {
 } = require('./probability');
 
 class AYTOSolver {
-  constructor(men, women, matchboxResults, matchingNights) {
+  constructor(men, women, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman) {
     this.men = men;
     this.women = women;
     this.matchboxResults = matchboxResults;
     this.matchingNights = matchingNights;
+    this.doubleMatchMan = doubleMatchMan;
+    this.doubleMatchWoman = doubleMatchWoman;
     this.allCombinations = [];
     this.validCombinations = [];
     this.probabilityResults = [];
@@ -41,7 +43,7 @@ class AYTOSolver {
     for (let i = 0; i < total; i++) {
       const combination = getNthMatchCombination(this.men, this.women, i);
 
-      if (isValidCombination(combination, this.matchboxResults, this.matchingNights)) {
+      if (isValidCombination(combination, this.matchboxResults, this.matchingNights, this.doubleMatchMan, this.doubleMatchWoman)) {
         this.validCombinations.push(combination);
         validCount++;
       }
@@ -178,7 +180,7 @@ class AYTOSolver {
 
 // Main execution
 function main() {
-  const solver = new AYTOSolver(menCandidates, womenCandidates, matchboxResults, matchingNights);
+  const solver = new AYTOSolver(menCandidates, womenCandidates, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman);
 
   // Check for command line arguments
   const args = process.argv.slice(2);

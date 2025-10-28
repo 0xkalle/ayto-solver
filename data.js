@@ -12,7 +12,11 @@ const menCandidates = [
   'teezy',
   'elia',
   'peter',
+  'max',
 ];
+
+const doubleMatchMan = 'max';
+const doubleMatchWoman = null;
 
 const womenCandidates = [
   'sabrina',
@@ -32,6 +36,7 @@ const matchboxResults = [
   { man: 'danilo', woman: 'jenny', isMatch: false },
   { man: 'elia', woman: 'jenny', isMatch: false },
   { man: 'elia', woman: 'daria', isMatch: false },
+  { man: 'mike', woman: 'kim', isMatch: false },
 
 
   // Add more confirmed results as they become available
@@ -60,11 +65,35 @@ const matchingNights = [
   { night: 2, woman: 'jenny', man: 'marvin', matchCount: 2 },
   { night: 2, woman: 'sabrina', man: 'mike', matchCount: 2 },
   { night: 2, woman: 'shakira', man: 'peter', matchCount: 2 },
+
+  { night: 3, woman: 'paulina', man: 'mike', matchCount: 2 },
+  { night: 3, woman: 'kim', man: 'teezy', matchCount: 2 },
+  { night: 3, woman: 'daria', man: 'danilo', matchCount: 2 },
+  { night: 3, woman: 'alicia', man: 'steffen', matchCount: 2 },
+  { night: 3, woman: 'marie', man: 'elia', matchCount: 2 },
+  { night: 3, woman: 'stefanie', man: 'marvin', matchCount: 2 },
+  { night: 3, woman: 'sandra', man: 'paco', matchCount: 2 },
+  { night: 3, woman: 'jenny', man: 'emanuell', matchCount: 2 },
+  { night: 3, woman: 'sabrina', man: 'peter', matchCount: 2 },
+  { night: 3, woman: 'shakira', man: 'fabio', matchCount: 2 },
+
+  { night: 4, woman: 'paulina', man: 'max', matchCount: 4 }, //
+  { night: 4, woman: 'kim', man: 'peter', matchCount: 4 }, //
+  { night: 4, woman: 'daria', man: 'danilo', matchCount: 4 }, //
+  { night: 4, woman: 'sandra', man: 'steffen', matchCount: 4 }, //
+  { night: 4, woman: 'marie', man: 'elia', matchCount: 4 }, //
+  { night: 4, woman: 'jenny', man: 'marvin', matchCount: 4 }, //
+  { night: 4, woman: 'alicia', man: 'teezy', matchCount: 4 }, //
+  { night: 4, woman: 'stefanie', man: 'emanuell', matchCount: 4 }, //
+  { night: 4, woman: 'sabrina', man: 'paco', matchCount: 4 }, //
+  { night: 4, woman: 'shakira', man: 'fabio', matchCount: 4 }, //
 ];
 
 module.exports = {
   menCandidates,
   womenCandidates,
   matchboxResults,
-  matchingNights
+  matchingNights,
+  doubleMatchMan,
+  doubleMatchWoman
 };
