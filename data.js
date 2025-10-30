@@ -116,6 +116,18 @@ const matchingNights = [
   { night: 6, woman: 'sabrina', man: 'peter', matchCount: 4 },
   { night: 6, woman: 'alicia', man: 'paco', matchCount: 4 },
 
+  // matched
+  { night: 7, woman: 'daria', man: 'danilo', matchCount: 3 },
+  // unsure 1
+  { night: 7, woman: 'paulina', man: 'marvin', matchCount: 3 }, // x
+  { night: 7, woman: 'kim', man: 'teezy', matchCount: 3 }, //
+  { night: 7, woman: 'stefanie', man: 'elia', matchCount: 3 }, // x
+  { night: 7, woman: 'shakira', man: 'max', matchCount: 3 }, // x
+  { night: 7, woman: 'jenny', man: 'paco', matchCount: 3 }, //
+  { night: 7, woman: 'sandra', man: 'mike', matchCount: 3 }, // 
+  { night: 7, woman: 'marie', man: 'steffen', matchCount: 3 }, //
+  { night: 7, woman: 'sabrina', man: 'emanuell', matchCount: 3 }, // t
+  { night: 7, woman: 'alicia', man: 'fabio', matchCount: 3 }, // x
 
 ];
 
