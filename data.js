@@ -15,7 +15,7 @@ const menCandidates = [
   'max',
 ];
 
-const doubleMatchMan = 'max';
+const doubleMatchMan = ['max', 'peter'];
 const doubleMatchWoman = null;
 
 const womenCandidates = [
