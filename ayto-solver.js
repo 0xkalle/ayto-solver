@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const { Worker } = require('worker_threads');
+const os = require('os');
 const { menCandidates, womenCandidates, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman } = require('./data');
 const { generateMatchCombinations, combinationToString, getTotalCombinations, getNthMatchCombination } = require('./permutations');
 const { isValidCombination, getValidationScore } = require('./validator');
@@ -19,7 +21,8 @@ class AYTOSolver {
     this.doubleMatchMan = doubleMatchMan;
     this.doubleMatchWoman = doubleMatchWoman;
     this.allCombinations = [];
-    this.validCombinations = [];
+    this.validCombinationsCount = 0;
+    this.pairFrequencies = new Map(); // Stores frequency of each pair across valid combinations
     this.probabilityResults = [];
   }
 
@@ -33,43 +36,100 @@ class AYTOSolver {
 
   filterValidCombinations() {
     console.log('Filtering combinations based on known constraints...');
-    this.validCombinations = [];
+    console.log('Building pair frequency map (multi-threaded mode)...');
+
+    this.validCombinationsCount = 0;
+    this.pairFrequencies.clear();
 
     const total = this.totalCombinations;
-    let validCount = 0;
+    const numWorkers = 8; // Use 4 cores as requested
 
-    // Process in batches to show progress
-    const batchSize = 100000;
-    for (let i = 0; i < total; i++) {
-      const combination = getNthMatchCombination(this.men, this.women, i);
+    // Split work into chunks for each worker
+    const chunkSize = Math.ceil(total / numWorkers);
+    const workers = [];
+    const workerProgress = new Array(numWorkers).fill(0);
+    const workerValidCounts = new Array(numWorkers).fill(0);
 
-      if (isValidCombination(combination, this.matchboxResults, this.matchingNights, this.doubleMatchMan, this.doubleMatchWoman)) {
-        this.validCombinations.push(combination);
-        validCount++;
+    console.log(`Spawning ${numWorkers} workers to process ${total.toLocaleString()} combinations...`);
+
+    return new Promise((resolve, reject) => {
+      let completedWorkers = 0;
+
+      for (let workerId = 0; workerId < numWorkers; workerId++) {
+        const startIndex = workerId * chunkSize;
+        const endIndex = Math.min(startIndex + chunkSize, total);
+
+        const worker = new Worker('./worker.js', {
+          workerData: {
+            startIndex,
+            endIndex,
+            men: this.men,
+            women: this.women,
+            matchboxResults: this.matchboxResults,
+            matchingNights: this.matchingNights,
+            doubleMatchMan: this.doubleMatchMan,
+            doubleMatchWoman: this.doubleMatchWoman,
+            workerId
+          }
+        });
+
+        worker.on('message', (message) => {
+          if (message.type === 'progress') {
+            workerProgress[message.workerId] = message.processed;
+            workerValidCounts[message.workerId] = message.validCount;
+
+            // Calculate total progress
+            const totalProcessed = workerProgress.reduce((a, b) => a + b, 0);
+            const totalValid = workerValidCounts.reduce((a, b) => a + b, 0);
+            const progress = (totalProcessed / total * 100).toFixed(1);
+            console.log(`  Progress: ${progress}% (${totalProcessed.toLocaleString()}/${total.toLocaleString()}) - ${totalValid.toLocaleString()} valid so far`);
+          } else if (message.type === 'complete') {
+            // Merge results from this worker
+            this.validCombinationsCount += message.validCount;
+
+            for (const [pairKey, frequency] of Object.entries(message.pairFrequencies)) {
+              this.pairFrequencies.set(pairKey, (this.pairFrequencies.get(pairKey) || 0) + frequency);
+            }
+
+            completedWorkers++;
+            console.log(`  Worker ${message.workerId} completed: ${message.validCount.toLocaleString()} valid combinations found`);
+
+            if (completedWorkers === numWorkers) {
+              console.log(`${this.validCombinationsCount.toLocaleString()} combinations remain after filtering`);
+
+              if (this.validCombinationsCount === 0) {
+                console.log('⚠️  No valid combinations found. Check your constraint data for conflicts.');
+                resolve(false);
+              } else {
+                resolve(true);
+              }
+            }
+          }
+        });
+
+        worker.on('error', (error) => {
+          console.error(`Worker ${workerId} error:`, error);
+          reject(error);
+        });
+
+        worker.on('exit', (code) => {
+          if (code !== 0) {
+            console.error(`Worker ${workerId} stopped with exit code ${code}`);
+          }
+        });
+
+        workers.push(worker);
       }
-
-      // Show progress every batch
-      if ((i + 1) % batchSize === 0 || i === total - 1) {
-        const progress = ((i + 1) / total * 100).toFixed(1);
-        console.log(`  Progress: ${progress}% (${(i + 1).toLocaleString()}/${total.toLocaleString()}) - ${validCount.toLocaleString()} valid so far`);
-      }
-    }
-
-    console.log(`${this.validCombinations.length} combinations remain after filtering`);
-
-    if (this.validCombinations.length === 0) {
-      console.log('⚠️  No valid combinations found. Check your constraint data for conflicts.');
-      return false;
-    }
-    return true;
+    });
   }
 
   calculateProbabilities() {
     console.log('Calculating probability distribution...');
+    // Since all valid combinations are equally likely in AYTO,
+    // we only need the pair frequencies we already collected
     this.probabilityResults = calculateProbabilityDistribution(
-      this.validCombinations,
-      this.matchboxResults,
-      this.matchingNights
+      this.validCombinationsCount,
+      this.pairFrequencies
     );
   }
 
@@ -78,41 +138,33 @@ class AYTOSolver {
     console.log('🎯 AYTO SOLVER RESULTS');
     console.log('='.repeat(80));
 
-    if (this.validCombinations.length === 0) {
+    if (this.validCombinationsCount === 0) {
       console.log('❌ No valid combinations found.');
       return;
     }
 
     console.log(`\n📊 SUMMARY:`);
     console.log(`   Total possible combinations: ${this.totalCombinations.toLocaleString()}`);
-    console.log(`   Valid combinations: ${this.validCombinations.length}`);
-    console.log(`   Elimination rate: ${((1 - this.validCombinations.length / this.totalCombinations) * 100).toFixed(1)}%`);
+    console.log(`   Valid combinations: ${this.validCombinationsCount.toLocaleString()}`);
+    console.log(`   Elimination rate: ${((1 - this.validCombinationsCount / this.totalCombinations) * 100).toFixed(1)}%`);
 
-    const topResults = getTopProbabilities(this.probabilityResults, topN);
-
-    console.log(`\n🏆 ALL VALID PERFECT MATCH COMBINATIONS (showing up to ${topN}):`);
-    console.log('-'.repeat(80));
-
-    topResults.forEach((result, index) => {
-      console.log(`\n${index + 1}. PROBABILITY: ${result.percentage}%`);
-      console.log('   Matches:');
-      result.combination.forEach(pair => {
-        console.log(`   • ${pair.man} ↔ ${pair.woman}`);
-      });
-    });
+    // Note: With equal probability for all valid combinations,
+    // showing specific combinations is less useful than showing pair probabilities
+    console.log(`\n💡 NOTE: All ${this.validCombinationsCount.toLocaleString()} valid combinations are equally likely.`);
+    console.log(`   Each has a probability of ${(100 / this.validCombinationsCount).toFixed(4)}%`);
 
     // Display individual pair probabilities
     console.log('\n💝 INDIVIDUAL PAIR PROBABILITIES:');
     console.log('-'.repeat(80));
-    const pairProbabilities = calculateIndividualPairProbabilities(this.probabilityResults);
+    const pairProbabilities = calculateIndividualPairProbabilities(this.validCombinationsCount, this.pairFrequencies);
 
-    pairProbabilities.slice(0, 20).forEach((pair, index) => {
+    pairProbabilities.forEach((pair, index) => {
       const [man, woman] = pair.pair.split('-');
       console.log(`${(index + 1).toString().padStart(2)}. ${man} ↔ ${woman}: ${pair.percentage}%`);
     });
 
     // Display impossible pairs (0% probability)
-    const impossiblePairs = getImpossiblePairs(this.men, this.women, this.probabilityResults);
+    const impossiblePairs = getImpossiblePairs(this.men, this.women, this.pairFrequencies);
 
     if (impossiblePairs.length > 0) {
       console.log('\n❌ IMPOSSIBLE PAIRS (0% PROBABILITY):');
@@ -142,14 +194,15 @@ class AYTOSolver {
     });
   }
 
-  solve(options = {}) {
+  async solve(options = {}) {
     const { displayTop = 20, showIndividualPairs = true } = options;
 
     console.log('🔍 Starting AYTO Solver...\n');
 
     this.generateAllCombinations();
 
-    if (!this.filterValidCombinations()) {
+    const hasValidCombinations = await this.filterValidCombinations();
+    if (!hasValidCombinations) {
       return;
     }
 
@@ -179,14 +232,14 @@ class AYTOSolver {
 }
 
 // Main execution
-function main() {
+async function main() {
   const solver = new AYTOSolver(menCandidates, womenCandidates, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman);
 
   // Check for command line arguments
   const args = process.argv.slice(2);
   const topN = args.includes('--top') ? parseInt(args[args.indexOf('--top') + 1]) || 20 : 20;
 
-  solver.solve({ displayTop: topN });
+  await solver.solve({ displayTop: topN });
 }
 
 // Export for potential use as a module

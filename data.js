@@ -33,11 +33,26 @@ const womenCandidates = [
 
 // Matchbox results: confirmed matches and non-matches
 const matchboxResults = [
-  //{ man: 'kevin', woman: 'sandra', isMatch: false }, //verkauft
+  //{ man: 'kevin', woman: 'sandra', isMatch: true }, //verkauft
+  { man: 'xander', woman: 'elli', isMatch: true },
+  { man: 'calvinb', woman: 'nelly', isMatch: false },
 ];
 
 // Matching night results
 const matchingNights = [
+  // confirmed
+  { night: 2, woman: 'elli', man: 'xander', matchCount: 2 },
+  // new
+  { night: 2, woman: 'henna', man: 'olli', matchCount: 2 }, // changed
+  { night: 2, woman: 'joanna', man: 'calvinb', matchCount: 2 }, // changed
+  { night: 2, woman: 'hati', man: 'calvinh', matchCount: 2 }, // same
+  { night: 2, woman: 'ariel', man: 'nico', matchCount: 2 }, // same
+  { night: 2, woman: 'beverly', man: 'sidar', matchCount: 2 }, // same
+  { night: 2, woman: 'nelly', man: 'rob', matchCount: 2 }, // changed
+  { night: 2, woman: 'antonia', man: 'jonny', matchCount: 2 }, // changed
+  { night: 2, woman: 'vicky', man: 'leandro', matchCount: 2 }, // same
+  { night: 2, woman: 'sandra', man: 'kevin', matchCount: 2 }, // same
+  
   { night: 1, woman: 'elli', man: 'xander', matchCount: 2 },
   { night: 1, woman: 'henna', man: 'jonny', matchCount: 2 },
   { night: 1, woman: 'joanna', man: 'rob', matchCount: 2 },
