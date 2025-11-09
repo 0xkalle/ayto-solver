@@ -87,51 +87,73 @@ function doubleMatchConstrain(combination, doubleMatchMan, doubleMatchWoman) {
     womenCounts[pair.woman] = (womenCounts[pair.woman] || 0) + 1;
   }
 
-  // Find who appears twice (the double match person)
-  const doubleMatchedMan = Object.keys(menCounts).find(man => menCounts[man] === 2);
-  const doubleMatchedWoman = Object.keys(womenCounts).find(woman => womenCounts[woman] === 2);
+  // Find all people who appear twice (double match people)
+  const doubleMatchedMen = Object.keys(menCounts).filter(man => menCounts[man] === 2);
+  const doubleMatchedWomen = Object.keys(womenCounts).filter(woman => womenCounts[woman] === 2);
 
-  // If doubleMatchMan is specified, verify all specified men are involved in the double match
-  if (doubleMatchMan && doubleMatchMan.length > 0) {
-    // Either this man appears twice, or this man appears once with a woman who appears twice
-    if (doubleMatchedMan) {
-      // One man matched to 2 women - check if it's one of the specified men
-      if (!doubleMatchMan.includes(doubleMatchedMan)) {
-        return false;
-      }
-    } else if (doubleMatchedWoman) {
-      // Two men matched to 1 woman - check if all specified men are matched to the double woman
-      const menMatchedToDoubleWoman = combination
-        .filter(pair => pair.woman === doubleMatchedWoman)
-        .map(pair => pair.man);
+  // If doubleMatchMan is specified
+  if (doubleMatchMan) {
+    // Handle both array and single value
+    const requiredMen = Array.isArray(doubleMatchMan) ? doubleMatchMan : [doubleMatchMan];
 
-      // All specified men must be in the double match
-      for (const man of doubleMatchMan) {
-        if (!menMatchedToDoubleWoman.includes(man)) {
-          return false;
+    if (requiredMen.length > 0 && requiredMen[0] !== null) {
+      if (doubleMatchedMen.length > 0) {
+        // One or more men matched to 2 women each
+        // Check if all specified men are in the double match
+        for (const man of requiredMen) {
+          if (!doubleMatchedMen.includes(man)) {
+            return false;
+          }
+        }
+      } else if (doubleMatchedWomen.length > 0) {
+        // One or more women matched to 2 men each
+        // Check if all specified men are matched to double match women
+        const menInDoubleMatches = new Set();
+        for (const woman of doubleMatchedWomen) {
+          const matchedMen = combination
+            .filter(pair => pair.woman === woman)
+            .map(pair => pair.man);
+          matchedMen.forEach(man => menInDoubleMatches.add(man));
+        }
+
+        for (const man of requiredMen) {
+          if (!menInDoubleMatches.has(man)) {
+            return false;
+          }
         }
       }
     }
   }
 
-  // If doubleMatchWoman is specified, verify all specified women are involved in the double match
-  if (doubleMatchWoman && doubleMatchWoman.length > 0) {
-    // Either this woman appears twice, or this woman appears once with a man who appears twice
-    if (doubleMatchedWoman) {
-      // One woman matched to 2 men - check if it's one of the specified women
-      if (!doubleMatchWoman.includes(doubleMatchedWoman)) {
-        return false;
-      }
-    } else if (doubleMatchedMan) {
-      // Two women matched to 1 man - check if all specified women are matched to the double man
-      const womenMatchedToDoubleMan = combination
-        .filter(pair => pair.man === doubleMatchedMan)
-        .map(pair => pair.woman);
+  // If doubleMatchWoman is specified
+  if (doubleMatchWoman) {
+    // Handle both array and single value
+    const requiredWomen = Array.isArray(doubleMatchWoman) ? doubleMatchWoman : [doubleMatchWoman];
 
-      // All specified women must be in the double match
-      for (const woman of doubleMatchWoman) {
-        if (!womenMatchedToDoubleMan.includes(woman)) {
-          return false;
+    if (requiredWomen.length > 0 && requiredWomen[0] !== null) {
+      if (doubleMatchedWomen.length > 0) {
+        // One or more women matched to 2 men each
+        // Check if all specified women are in the double match
+        for (const woman of requiredWomen) {
+          if (!doubleMatchedWomen.includes(woman)) {
+            return false;
+          }
+        }
+      } else if (doubleMatchedMen.length > 0) {
+        // One or more men matched to 2 women each
+        // Check if all specified women are matched to double match men
+        const womenInDoubleMatches = new Set();
+        for (const man of doubleMatchedMen) {
+          const matchedWomen = combination
+            .filter(pair => pair.man === man)
+            .map(pair => pair.woman);
+          matchedWomen.forEach(woman => womenInDoubleMatches.add(woman));
+        }
+
+        for (const woman of requiredWomen) {
+          if (!womenInDoubleMatches.has(woman)) {
+            return false;
+          }
         }
       }
     }

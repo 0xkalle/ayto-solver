@@ -13,6 +13,7 @@ const menCandidates = [
   'rob',
   'kevin',
   'leandro',
+  'jimi',
 ];
 
 const doubleMatchMan = null;
@@ -37,22 +38,37 @@ const matchboxResults = [
   { man: 'xander', woman: 'elli', isMatch: true },
   { man: 'calvinb', woman: 'nelly', isMatch: false },
   { man: 'jonny', woman: 'beverly', isMatch: false },
+  { man: 'leandro', woman: 'sandra', isMatch: false },
+  { man: 'jimi', woman: 'nelly', isMatch: false },
 ];
 
 // Matching night results
 const matchingNights = [
   // confirmed
-  { night: 4, woman: 'elli', man: 'xander', matchCount: 2 },
+  { night: 5, woman: 'elli', man: 'xander', matchCount: 4 },
   // new
-  { night: 4, woman: 'vicky', man: 'jonny', matchCount: 2 },
-  { night: 4, woman: 'hati', man: 'rob', matchCount: 2 },
-  { night: 4, woman: 'ariel', man: 'calvinh', matchCount: 2 },
-  { night: 4, woman: 'beverly', man: 'nico', matchCount: 2 },
-  { night: 4, woman: 'joanna', man: 'calvinb', matchCount: 2 },
-  { night: 4, woman: 'nelly', man: 'lennard', matchCount: 2 },
-  { night: 3, woman: 'antonia', man: 'olli', matchCount: 2 },
-  { night: 4, woman: 'henna', man: 'leandro', matchCount: 2 },
-  { night: 4, woman: 'sandra', man: 'kevin', matchCount: 2 },
+  { night: 5, woman: 'vicky', man: 'kevin', matchCount: 4 }, // 
+  { night: 5, woman: 'hati', man: 'rob', matchCount: 4 },//
+  { night: 5, woman: 'ariel', man: 'nico', matchCount: 4 }, //
+  { night: 5, woman: 'beverly', man: 'sidar', matchCount: 4 }, //
+  { night: 5, woman: 'joanna', man: 'calvinb', matchCount: 4 }, // 
+  { night: 5, woman: 'nelly', man: 'calvinh', matchCount: 4 }, //
+  { night: 5, woman: 'antonia', man: 'olli', matchCount: 4 }, //
+  { night: 5, woman: 'henna', man: 'jimi', matchCount: 4 }, //
+  { night: 5, woman: 'sandra', man: 'lennard', matchCount: 4 }, //
+
+  // confirmed
+  { night: 4, woman: 'elli', man: 'xander', matchCount: 3 },
+  // new
+  { night: 4, woman: 'vicky', man: 'kevin', matchCount: 3 }, // changed
+  { night: 4, woman: 'hati', man: 'rob', matchCount: 3 }, // same
+  { night: 4, woman: 'ariel', man: 'nico', matchCount: 3 }, // changed
+  { night: 4, woman: 'beverly', man: 'sidar', matchCount: 3 }, // changed
+  { night: 4, woman: 'joanna', man: 'calvinb', matchCount: 3 }, // same
+  { night: 4, woman: 'nelly', man: 'calvinh', matchCount: 3 }, // changed
+  { night: 4, woman: 'antonia', man: 'olli', matchCount: 3 }, // same
+  { night: 4, woman: 'henna', man: 'lennard', matchCount: 3 }, // changed
+  { night: 4, woman: 'sandra', man: 'leandro', matchCount: 3 }, // changed
 
   // confirmed
   { night: 3, woman: 'elli', man: 'xander', matchCount: 2 },
