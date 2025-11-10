@@ -91,23 +91,20 @@ function doubleMatchConstrain(combination, doubleMatchMan, doubleMatchWoman) {
   const doubleMatchedMen = Object.keys(menCounts).filter(man => menCounts[man] === 2);
   const doubleMatchedWomen = Object.keys(womenCounts).filter(woman => womenCounts[woman] === 2);
 
-  // If doubleMatchMan is specified
-  if (doubleMatchMan) {
-    // Handle both array and single value
-    const requiredMen = Array.isArray(doubleMatchMan) ? doubleMatchMan : [doubleMatchMan];
+  // Helper function to check if input is array of arrays
+  const isArrayOfArrays = (input) => {
+    return Array.isArray(input) && input.length > 0 && Array.isArray(input[0]);
+  };
 
-    if (requiredMen.length > 0 && requiredMen[0] !== null) {
+  // Helper function to validate a specific double match configuration
+  const validateConfiguration = (requiredPeople, actualDoubleMatched, isMan) => {
+    if (isMan) {
+      // Checking men
       if (doubleMatchedMen.length > 0) {
-        // One or more men matched to 2 women each
-        // Check if all specified men are in the double match
-        for (const man of requiredMen) {
-          if (!doubleMatchedMen.includes(man)) {
-            return false;
-          }
-        }
+        // Men matched to 2 women each - check if required men are in double match
+        return requiredPeople.every(man => doubleMatchedMen.includes(man));
       } else if (doubleMatchedWomen.length > 0) {
-        // One or more women matched to 2 men each
-        // Check if all specified men are matched to double match women
+        // Women matched to 2 men each - check if required men are paired with double match women
         const menInDoubleMatches = new Set();
         for (const woman of doubleMatchedWomen) {
           const matchedMen = combination
@@ -115,33 +112,15 @@ function doubleMatchConstrain(combination, doubleMatchMan, doubleMatchWoman) {
             .map(pair => pair.man);
           matchedMen.forEach(man => menInDoubleMatches.add(man));
         }
-
-        for (const man of requiredMen) {
-          if (!menInDoubleMatches.has(man)) {
-            return false;
-          }
-        }
+        return requiredPeople.every(man => menInDoubleMatches.has(man));
       }
-    }
-  }
-
-  // If doubleMatchWoman is specified
-  if (doubleMatchWoman) {
-    // Handle both array and single value
-    const requiredWomen = Array.isArray(doubleMatchWoman) ? doubleMatchWoman : [doubleMatchWoman];
-
-    if (requiredWomen.length > 0 && requiredWomen[0] !== null) {
+    } else {
+      // Checking women
       if (doubleMatchedWomen.length > 0) {
-        // One or more women matched to 2 men each
-        // Check if all specified women are in the double match
-        for (const woman of requiredWomen) {
-          if (!doubleMatchedWomen.includes(woman)) {
-            return false;
-          }
-        }
+        // Women matched to 2 men each - check if required women are in double match
+        return requiredPeople.every(woman => doubleMatchedWomen.includes(woman));
       } else if (doubleMatchedMen.length > 0) {
-        // One or more men matched to 2 women each
-        // Check if all specified women are matched to double match men
+        // Men matched to 2 women each - check if required women are paired with double match men
         const womenInDoubleMatches = new Set();
         for (const man of doubleMatchedMen) {
           const matchedWomen = combination
@@ -149,11 +128,91 @@ function doubleMatchConstrain(combination, doubleMatchMan, doubleMatchWoman) {
             .map(pair => pair.woman);
           matchedWomen.forEach(woman => womenInDoubleMatches.add(woman));
         }
+        return requiredPeople.every(woman => womenInDoubleMatches.has(woman));
+      }
+    }
+    return false;
+  };
 
-        for (const woman of requiredWomen) {
-          if (!womenInDoubleMatches.has(woman)) {
+  // Process doubleMatchMan constraint
+  if (doubleMatchMan) {
+    if (isArrayOfArrays(doubleMatchMan)) {
+      // Array of arrays: multiple possible double match configurations
+      const configurations = doubleMatchMan.filter(config => config && config.length > 0 && config[0] !== null);
+
+      if (configurations.length > 0) {
+        // Check if at least one configuration matches for each specified double match
+        let matchedConfigs = 0;
+
+        for (const config of configurations) {
+          if (validateConfiguration(config, doubleMatchedMen, true)) {
+            matchedConfigs++;
+          }
+        }
+
+        // If we have only one configuration, at least one double match must fit it
+        // If we have multiple configurations, all must be satisfied
+        if (configurations.length === 1) {
+          // Single configuration: at least one of the actual double matches must fit
+          if (matchedConfigs === 0) {
             return false;
           }
+        } else {
+          // Multiple configurations: all must be satisfied
+          if (matchedConfigs !== configurations.length) {
+            return false;
+          }
+        }
+      }
+    } else {
+      // Single value or simple array (backward compatibility)
+      const requiredMen = Array.isArray(doubleMatchMan) ? doubleMatchMan : [doubleMatchMan];
+
+      if (requiredMen.length > 0 && requiredMen[0] !== null) {
+        if (!validateConfiguration(requiredMen, doubleMatchedMen, true)) {
+          return false;
+        }
+      }
+    }
+  }
+
+  // Process doubleMatchWoman constraint
+  if (doubleMatchWoman) {
+    if (isArrayOfArrays(doubleMatchWoman)) {
+      // Array of arrays: multiple possible double match configurations
+      const configurations = doubleMatchWoman.filter(config => config && config.length > 0 && config[0] !== null);
+
+      if (configurations.length > 0) {
+        // Check if at least one configuration matches for each specified double match
+        let matchedConfigs = 0;
+
+        for (const config of configurations) {
+          if (validateConfiguration(config, doubleMatchedWomen, false)) {
+            matchedConfigs++;
+          }
+        }
+
+        // If we have only one configuration, at least one double match must fit it
+        // If we have multiple configurations, all must be satisfied
+        if (configurations.length === 1) {
+          // Single configuration: at least one of the actual double matches must fit
+          if (matchedConfigs === 0) {
+            return false;
+          }
+        } else {
+          // Multiple configurations: all must be satisfied
+          if (matchedConfigs !== configurations.length) {
+            return false;
+          }
+        }
+      }
+    } else {
+      // Single value or simple array (backward compatibility)
+      const requiredWomen = Array.isArray(doubleMatchWoman) ? doubleMatchWoman : [doubleMatchWoman];
+
+      if (requiredWomen.length > 0 && requiredWomen[0] !== null) {
+        if (!validateConfiguration(requiredWomen, doubleMatchedWomen, false)) {
+          return false;
         }
       }
     }
