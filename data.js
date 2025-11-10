@@ -46,6 +46,18 @@ const matchboxResults = [
 // Matching night results
 const matchingNights = [
   // confirmed
+  { night: 6, woman: 'elli', man: 'xander', matchCount: 4 },
+  { night: 6, woman: 'sandra', man: 'lennard', matchCount: 4 },
+  // new
+  { night: 6, woman: 'vicky', man: 'jonny', matchCount: 4 }, //
+  { night: 6, woman: 'hati', man: 'jimi', matchCount: 4 }, //
+  { night: 6, woman: 'ariel', man: 'kevin', matchCount: 4 }, //
+  { night: 6, woman: 'beverly', man: 'leandro', matchCount: 4 }, //
+  { night: 6, woman: 'joanna', man: 'sidar', matchCount: 4 }, //
+  { night: 6, woman: 'nelly', man: 'calvinh', matchCount: 4 }, //
+  { night: 6, woman: 'antonia', man: 'calvinb', matchCount: 4 }, //
+  { night: 6, woman: 'henna', man: 'olli', matchCount: 4 }, //
+  // confirmed
   { night: 5, woman: 'elli', man: 'xander', matchCount: 4 },
   // new
   { night: 5, woman: 'vicky', man: 'kevin', matchCount: 4 }, // 
