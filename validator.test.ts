@@ -310,6 +310,164 @@ describe('validator.ts', () => {
       const result = doubleMatchConstrain(combination, null, null);
       assert.strictEqual(result, true);
     });
+
+    describe('exclusion constraints', () => {
+      it('should return true when excluded men are not in any double match', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // lennard is excluded but not in any double match, so should pass
+        const result = doubleMatchConstrain(combination, null, null, ['lennard'], null);
+        assert.strictEqual(result, true);
+      });
+
+      it('should return false when excluded man appears in double match', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // xander is excluded but appears in double match, should fail
+        const result = doubleMatchConstrain(combination, null, null, ['xander'], null);
+        assert.strictEqual(result, false);
+      });
+
+      it('should return true when excluded women are not in any double match', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'olli', woman: 'elli' },
+          { man: 'lennard', woman: 'sandra' }
+        ];
+        // henna is excluded but not in any double match, should pass
+        const result = doubleMatchConstrain(combination, null, null, null, ['henna']);
+        assert.strictEqual(result, true);
+      });
+
+      it('should return false when excluded woman appears in double match', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'olli', woman: 'elli' },
+          { man: 'lennard', woman: 'sandra' }
+        ];
+        // elli is excluded but appears in double match, should fail
+        const result = doubleMatchConstrain(combination, null, null, null, ['elli']);
+        assert.strictEqual(result, false);
+      });
+
+      it('should allow excluded people to appear in single matches', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // olli is excluded but only appears once (single match), should pass
+        const result = doubleMatchConstrain(combination, null, null, ['olli'], null);
+        assert.strictEqual(result, true);
+      });
+
+      it('should handle empty exclusion lists', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        const result = doubleMatchConstrain(combination, null, null, [], []);
+        assert.strictEqual(result, true);
+      });
+
+      it('should handle exclusions for both men and women simultaneously', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // lennard and ariel are excluded but not in double matches
+        const result = doubleMatchConstrain(combination, null, null, ['lennard'], ['ariel']);
+        assert.strictEqual(result, true);
+      });
+
+      it('should reject when excluded man is in double match (reverse scenario)', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'olli', woman: 'elli' },
+          { man: 'lennard', woman: 'sandra' }
+        ];
+        // xander is in double match (paired with woman who has 2 men), should fail
+        const result = doubleMatchConstrain(combination, null, null, ['xander'], null);
+        assert.strictEqual(result, false);
+      });
+
+      it('should reject when excluded woman is in double match (reverse scenario)', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // elli is in double match (paired with man who has 2 women), should fail
+        const result = doubleMatchConstrain(combination, null, null, null, ['elli']);
+        assert.strictEqual(result, false);
+      });
+
+      it('should handle multiple excluded people', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // multiple exclusions, none in double matches
+        const result = doubleMatchConstrain(combination, null, null, ['olli', 'lennard', 'nico'], ['sandra', 'ariel']);
+        assert.strictEqual(result, true);
+      });
+
+      it('should reject when any excluded person is in double match', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'olli' },
+          { man: 'lennard', woman: 'sandra' }
+        ];
+        // lennard not in double match but xander is
+        const result = doubleMatchConstrain(combination, null, null, ['lennard', 'xander'], null);
+        assert.strictEqual(result, false);
+      });
+
+      it('should work with required double match and exclusions together', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' },
+          { man: 'olli', woman: 'ariel' }
+        ];
+        // xander required, lennard excluded (not in double match)
+        const result = doubleMatchConstrain(combination, ['xander'], null, ['lennard'], null);
+        assert.strictEqual(result, true);
+      });
+
+      it('should reject when required person is also excluded and in double match', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' }
+        ];
+        // xander required but also excluded (conflicting constraints)
+        const result = doubleMatchConstrain(combination, ['xander'], null, ['xander'], null);
+        assert.strictEqual(result, false);
+      });
+
+      it('should handle exclusions with array of arrays constraints', () => {
+        const combination: MatchPair[] = [
+          { man: 'xander', woman: 'elli' },
+          { man: 'xander', woman: 'henna' },
+          { man: 'olli', woman: 'sandra' },
+          { man: 'olli', woman: 'ariel' }
+        ];
+        // xander and olli required in array of arrays, lennard excluded
+        const result = doubleMatchConstrain(combination, [['xander', 'olli']], null, ['lennard'], null);
+        assert.strictEqual(result, true);
+      });
+    });
   });
 
   describe('isValidCombination', () => {

@@ -86,7 +86,9 @@ function validateAllMatchingNights(combination: MatchPair[], matchingNights: Mat
 function doubleMatchConstrain(
   combination: MatchPair[],
   doubleMatchMan: string | string[] | string[][] | null,
-  doubleMatchWoman: string | string[] | string[][] | null
+  doubleMatchWoman: string | string[] | string[][] | null,
+  excludedMen: string[] | null = null,
+  excludedWomen: string[] | null = null
 ): boolean {
   // Count how many times each person appears in the combination
   const menCounts: Record<string, number> = {};
@@ -100,6 +102,51 @@ function doubleMatchConstrain(
   // Find all people who appear twice (double match people)
   const doubleMatchedMen = Object.keys(menCounts).filter(man => menCounts[man] === 2);
   const doubleMatchedWomen = Object.keys(womenCounts).filter(woman => womenCounts[woman] === 2);
+
+  // Check exclusion constraints: excluded people should NOT be in any double match
+  if (excludedMen && excludedMen.length > 0) {
+    // Check if any excluded man is in a double match scenario
+    // Case 1: Man matched to 2 women
+    for (const man of excludedMen) {
+      if (doubleMatchedMen.includes(man)) {
+        return false;
+      }
+    }
+
+    // Case 2: Man paired with a woman who has 2 men (reverse double match)
+    if (doubleMatchedWomen.length > 0) {
+      for (const man of excludedMen) {
+        const menPairs = combination.filter(pair => pair.man === man);
+        for (const pair of menPairs) {
+          if (doubleMatchedWomen.includes(pair.woman)) {
+            return false;
+          }
+        }
+      }
+    }
+  }
+
+  if (excludedWomen && excludedWomen.length > 0) {
+    // Check if any excluded woman is in a double match scenario
+    // Case 1: Woman matched to 2 men
+    for (const woman of excludedWomen) {
+      if (doubleMatchedWomen.includes(woman)) {
+        return false;
+      }
+    }
+
+    // Case 2: Woman paired with a man who has 2 women (reverse double match)
+    if (doubleMatchedMen.length > 0) {
+      for (const woman of excludedWomen) {
+        const womenPairs = combination.filter(pair => pair.woman === woman);
+        for (const pair of womenPairs) {
+          if (doubleMatchedMen.includes(pair.man)) {
+            return false;
+          }
+        }
+      }
+    }
+  }
 
   // Helper function to check if input is array of arrays
   const isArrayOfArrays = (input: any): input is string[][] => {
@@ -236,7 +283,9 @@ function isValidCombination(
   matchboxResults: MatchboxResult[],
   matchingNights: MatchingNight[],
   doubleMatchMan: string | string[] | string[][] | null,
-  doubleMatchWoman: string | string[] | string[][] | null
+  doubleMatchWoman: string | string[] | string[][] | null,
+  excludedMen: string[] | null = null,
+  excludedWomen: string[] | null = null
 ): boolean {
   if (!validateMatchboxConstraints(combination, matchboxResults)) {
     return false;
@@ -246,7 +295,7 @@ function isValidCombination(
     return false;
   }
 
-  if (!doubleMatchConstrain(combination, doubleMatchMan, doubleMatchWoman)) {
+  if (!doubleMatchConstrain(combination, doubleMatchMan, doubleMatchWoman, excludedMen, excludedWomen)) {
     return false;
   }
 
