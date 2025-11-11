@@ -259,6 +259,17 @@ describe('validator.ts', () => {
       assert.strictEqual(result, true);
     });
 
+    it('should validate multiple men in array of arraysshould handle two double match with one in arrays', () => {
+      const combination: MatchPair[] = [
+        { man: 'xander', woman: 'elli' },
+        { man: 'xander', woman: 'henna' },
+        { man: 'olli', woman: 'sandra' },
+        { man: 'olli', woman: 'ariel' }
+      ];
+      const result = doubleMatchConstrain(combination, [['xander']], null);
+      assert.strictEqual(result, true);
+    });
+
     it('should handle reverse double match (women matched to 2 men each with man constraint)', () => {
       const combination: MatchPair[] = [
         { man: 'xander', woman: 'elli' },
