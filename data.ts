@@ -34,8 +34,11 @@ const menCandidates: string[] = [
   'jimi',
 ];
 
-const doubleMatchMan: string | string[] | string[][] | null = null;
+const doubleMatchMan: string | string[] | string[][] | null = ['jimi'];
 const doubleMatchWoman: string | string[] | string[][] | null = null;
+
+const excludedMen: string[] | null = ['lennard', 'xander'];
+const excludedWomen: string[] | null = ['elli', 'sandra'];
 
 const womenCandidates: string[] = [
   'elli',
@@ -65,6 +68,19 @@ const matchboxResults: MatchboxResult[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+  // confirmed
+  { night: 7, woman: 'elli', man: 'xander', matchCount: 5 },
+  { night: 7, woman: 'sandra', man: 'lennard', matchCount: 5 },
+  // new
+  { night: 7, woman: 'hati', man: 'jonny', matchCount: 5 }, // new
+  { night: 7, woman: 'beverly', man: 'nico', matchCount: 5 }, // new
+  { night: 7, woman: 'vicky', man: 'kevin', matchCount: 5 }, // new
+  { night: 7, woman: 'ariel', man: 'leandro', matchCount: 5 }, // new
+  { night: 7, woman: 'joanna', man: 'sidar', matchCount: 5 }, // same
+  { night: 7, woman: 'nelly', man: 'rob', matchCount: 5 }, // new
+  { night: 7, woman: 'antonia', man: 'calvinb', matchCount: 5 }, // same
+  { night: 7, woman: 'henna', man: 'olli', matchCount: 5 }, // same
+
   // confirmed
   { night: 6, woman: 'elli', man: 'xander', matchCount: 4 },
   { night: 6, woman: 'sandra', man: 'lennard', matchCount: 4 },
@@ -147,5 +163,7 @@ export {
   matchboxResults,
   matchingNights,
   doubleMatchMan,
-  doubleMatchWoman
+  doubleMatchWoman,
+  excludedMen,
+  excludedWomen
 };
