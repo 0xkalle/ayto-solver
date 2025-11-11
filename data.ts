@@ -59,6 +59,8 @@ const matchboxResults: MatchboxResult[] = [
   { man: 'leandro', woman: 'sandra', isMatch: false },
   { man: 'jimi', woman: 'nelly', isMatch: false },
   { man: 'lennard', woman: 'sandra', isMatch: true },
+  { man: 'olli', woman: 'antonia', isMatch: false },
+  { man: 'jimi', woman: 'hati', isMatch: false },
 ];
 
 // Matching night results
