@@ -65,10 +65,37 @@ const matchboxResults: MatchboxResult[] = [
   { man: 'olli', woman: 'antonia', isMatch: false },
   { man: 'jimi', woman: 'hati', isMatch: false },
   { man: 'sidar', woman: 'henna', isMatch: false },
+  { man: 'calvinh', woman: 'nelly', isMatch: true},
 ];
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+  // confirmed
+  { night: 9, woman: 'elli', man: 'xander', matchCount: 4 },
+  { night: 9, woman: 'sandra', man: 'lennard', matchCount: 4 },
+  { night: 9, woman: 'nelly', man: 'calvinh', matchCount: 4 },
+  // new
+  { night: 9, woman: 'beverly', man: 'sidar', matchCount: 4 }, // new
+  { night: 9, woman: 'antonia', man: 'jonny', matchCount: 4 }, // new
+  { night: 9, woman: 'ariel', man: 'leandro', matchCount: 4 }, // new
+  { night: 9, woman: 'hati', man: 'kevin', matchCount: 4 }, // new
+  { night: 9, woman: 'vicky', man: 'rob', matchCount: 4 }, // new
+  { night: 9, woman: 'joanna', man: 'calvinb', matchCount: 4 }, // new
+  { night: 9, woman: 'henna', man: 'olli', matchCount: 4 }, // same
+
+  // confirmed
+  { night: 8, woman: 'elli', man: 'xander', matchCount: 4 },
+  { night: 8, woman: 'sandra', man: 'lennard', matchCount: 4 },
+  // new
+  { night: 8, woman: 'hati', man: 'jonny', matchCount: 4 }, // same
+  { night: 8, woman: 'beverly', man: 'nico', matchCount: 4 }, // same
+  { night: 8, woman: 'vicky', man: 'leandro', matchCount: 4 }, // new
+  { night: 8, woman: 'ariel', man: 'kevin', matchCount: 4 }, // new
+  { night: 8, woman: 'joanna', man: 'calvinh', matchCount: 4 }, // new
+  { night: 8, woman: 'nelly', man: 'rob', matchCount: 4 }, // same
+  { night: 8, woman: 'antonia', man: 'calvinb', matchCount: 4 }, // same
+  { night: 8, woman: 'henna', man: 'olli', matchCount: 4 }, // same
+
   // confirmed
   { night: 7, woman: 'elli', man: 'xander', matchCount: 5 },
   { night: 7, woman: 'sandra', man: 'lennard', matchCount: 5 },
