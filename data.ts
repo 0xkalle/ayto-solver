@@ -63,6 +63,17 @@ const menCandidates: string[] = [
 // Matching night results
 const matchingNights: MatchingNight[] = [
 
+  { night: 2, woman: 'alicia', man: 'julianm', matchCount: 2 }, // neu
+  { night: 2, woman: 'toni', man: 'chris', matchCount: 2 }, // neu
+  { night: 2, woman: 'linda', man: 'noel', matchCount: 2 }, // neu
+  { night: 2, woman: 'adriana', man: 'julians', matchCount: 2 }, // neu
+  { night: 2, woman: 'laura', man: 'evi', matchCount: 2 }, //
+  { night: 2, woman: 'tiziana', man: 'jeronymo', matchCount: 2 }, //
+  { night: 2, woman: 'michelle', man: 'jerry', matchCount: 2 }, // neu
+  { night: 2, woman: 'elena', man: 'meji', matchCount: 2 }, // neu
+  { night: 2, woman: 'marla', man: 'luke', matchCount: 2 }, // 
+  { night: 2, woman: 'ella', man: 'ema', matchCount: 2 }, // neu
+
   { night: 1, woman: 'toni', man: 'noel', matchCount: 3 },
   { night: 1, woman: 'aurora', man: 'julians', matchCount: 3 },
   { night: 1, woman: 'linda', man: 'chris', matchCount: 3 },
