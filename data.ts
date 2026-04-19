@@ -45,6 +45,7 @@ const womenCandidates: string[] = [
 const matchboxResults: MatchboxResult[] = [
   { man: 'evi', woman: 'tiziana', isMatch: false },
   //{ man: 'evi', woman: 'laura', isMatch: false }, verkauft
+  { man: 'julians', woman: 'linda', isMatch: false },
 ];
 
 const menCandidates: string[] = [
