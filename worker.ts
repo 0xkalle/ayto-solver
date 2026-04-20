@@ -12,6 +12,8 @@ interface WorkerData {
   matchingNights: MatchingNight[];
   doubleMatchMan: string | string[] | string[][] | null;
   doubleMatchWoman: string | string[] | string[][] | null;
+  excludedMen: string[] | null;
+  excludedWomen: string[] | null;
   workerId: number;
 }
 
@@ -42,6 +44,8 @@ const {
   matchingNights,
   doubleMatchMan,
   doubleMatchWoman,
+  excludedMen,
+  excludedWomen,
   workerId
 } = workerData as WorkerData;
 
@@ -53,7 +57,7 @@ const progressInterval = 1000000; // Report progress every 1M combinations
 for (let i = startIndex; i < endIndex; i++) {
   const combination = getNthMatchCombination(men, women, i);
 
-  if (isValidCombination(combination, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman)) {
+  if (isValidCombination(combination, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman, excludedMen, excludedWomen)) {
     validCount++;
 
     // Track pair frequencies

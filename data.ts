@@ -24,8 +24,8 @@ export interface MatchingNight {
 const doubleMatchWoman: string | string[] | string[][] | null = null;
 const doubleMatchMan: string | string[] | string[][] | null = null;
 
-const excludedMen: string[] | null = null;
-const excludedWomen: string[] | null = null;
+const excludedMen: string[] | null = ['julianm'];
+const excludedWomen: string[] | null = ['marla'];
 
 const womenCandidates: string[] = [
   'alicia',

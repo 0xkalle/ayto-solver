@@ -3,7 +3,7 @@
 import { Worker } from 'worker_threads';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { menCandidates, womenCandidates, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman } from './data.ts';
+import { menCandidates, womenCandidates, matchboxResults, matchingNights, doubleMatchMan, doubleMatchWoman, excludedMen, excludedWomen } from './data.ts';
 import type { MatchPair, MatchboxResult, MatchingNight } from './data.ts';
 import { getTotalCombinations } from './permutations.ts';
 import {
@@ -25,6 +25,8 @@ interface WorkerData {
   matchingNights: MatchingNight[];
   doubleMatchMan: string | string[] | string[][] | null;
   doubleMatchWoman: string | string[] | string[][] | null;
+  excludedMen: string[] | null;
+  excludedWomen: string[] | null;
   workerId: number;
 }
 
@@ -57,6 +59,8 @@ class AYTOSolver {
   matchingNights: MatchingNight[];
   doubleMatchMan: string | string[] | string[][] | null;
   doubleMatchWoman: string | string[] | string[][] | null;
+  excludedMen: string[] | null;
+  excludedWomen: string[] | null;
   allCombinations: MatchPair[][];
   validCombinationsCount: number;
   pairFrequencies: Map<string, number>;
@@ -69,7 +73,9 @@ class AYTOSolver {
     matchboxResults: MatchboxResult[],
     matchingNights: MatchingNight[],
     doubleMatchMan: string | string[] | string[][] | null,
-    doubleMatchWoman: string | string[] | string[][] | null
+    doubleMatchWoman: string | string[] | string[][] | null,
+    excludedMen: string[] | null = null,
+    excludedWomen: string[] | null = null
   ) {
     this.men = men;
     this.women = women;
@@ -77,6 +83,8 @@ class AYTOSolver {
     this.matchingNights = matchingNights;
     this.doubleMatchMan = doubleMatchMan;
     this.doubleMatchWoman = doubleMatchWoman;
+    this.excludedMen = excludedMen;
+    this.excludedWomen = excludedWomen;
     this.allCombinations = [];
     this.validCombinationsCount = 0;
     this.pairFrequencies = new Map(); // Stores frequency of each pair across valid combinations
@@ -127,6 +135,8 @@ class AYTOSolver {
             matchingNights: this.matchingNights,
             doubleMatchMan: this.doubleMatchMan,
             doubleMatchWoman: this.doubleMatchWoman,
+            excludedMen: this.excludedMen,
+            excludedWomen: this.excludedWomen,
             workerId
           } as WorkerData
         });
@@ -297,7 +307,9 @@ async function main(): Promise<void> {
     matchboxResults,
     matchingNights,
     doubleMatchMan,
-    doubleMatchWoman
+    doubleMatchWoman,
+    excludedMen,
+    excludedWomen
   );
 
   // Check for command line arguments
