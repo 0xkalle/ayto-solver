@@ -47,6 +47,7 @@ const matchboxResults: MatchboxResult[] = [
   //{ man: 'evi', woman: 'laura', isMatch: false }, verkauft
   { man: 'julians', woman: 'linda', isMatch: false },
   { man: 'julianm', woman: 'marla', isMatch: true },
+  { man: 'chris', woman: 'aurora', isMatch: false },
 ];
 
 const menCandidates: string[] = [
@@ -64,6 +65,18 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+
+  // VERKAUFT
+  // { night: 4, woman: 'marla', man: 'julianm', matchCount: 1 },  // match
+  // { night: 4, woman: 'aurora', man: 'chris', matchCount: 1 }, // neu
+  // { night: 4, woman: 'ella', man: 'evi', matchCount: 1 }, // neu
+  // { night: 4, woman: 'alicia', man: 'julians', matchCount: 1 }, // 3
+  // { night: 4, woman: 'laura', man: 'meji', matchCount: 1 }, // neu
+  // { night: 4, woman: 'adriana', man: 'noel', matchCount: 1 }, // 
+  // { night: 4, woman: 'linda', man: 'jeronymo', matchCount: 1 }, // 
+  // { night: 4, woman: 'elena', man: 'jerry', matchCount: 1 }, // 1
+  // { night: 4, woman: 'toni', man: 'luke', matchCount: 1 }, // neu
+  // { night: 4, woman: 'michelle', man: 'ema', matchCount: 1 }, // 1 3
 
   { night: 3, woman: 'adriana', man: 'julianm', matchCount: 2 },  // 1
   { night: 3, woman: 'linda', man: 'chris', matchCount: 2 }, // 1
