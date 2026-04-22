@@ -21,7 +21,7 @@ export interface MatchingNight {
 
 
 // const doubleMatchMan: string | string[] | string[][] | null = ['jimi'];
-const doubleMatchWoman: string | string[] | string[][] | null = null;
+const doubleMatchWoman: string | string[] | string[][] | null = ['alicia'];
 const doubleMatchMan: string | string[] | string[][] | null = null;
 
 const excludedMen: string[] | null = ['julianm'];
@@ -48,6 +48,9 @@ const matchboxResults: MatchboxResult[] = [
   { man: 'julians', woman: 'linda', isMatch: false },
   { man: 'julianm', woman: 'marla', isMatch: true },
   { man: 'chris', woman: 'aurora', isMatch: false },
+  { man: 'noel', woman: 'toni', isMatch: true },
+
+
 ];
 
 const menCandidates: string[] = [
@@ -65,6 +68,28 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+
+  { night: 5, woman: 'marla', man: 'julianm', matchCount: 4 },  // 1 //
+  { night: 5, woman: 'linda', man: 'evi', matchCount: 4 }, // 5 //
+  { night: 5, woman: 'toni', man: 'noel', matchCount: 4 }, // 1 3 4 5 //
+  { night: 5, woman: 'adriana', man: 'luke', matchCount: 4 }, // 5 //
+  { night: 5, woman: 'aurora', man: 'meji', matchCount: 4 }, // 5 // 
+  { night: 5, woman: 'tiziana', man: 'julians', matchCount: 4 }, // 5 //
+  { night: 5, woman: 'elena', man: 'jerry', matchCount: 4 }, // 1 4 5 //
+  { night: 5, woman: 'ella', man: 'chris', matchCount: 4 }, // 5 // 
+  { night: 5, woman: 'laura', man: 'jeronymo', matchCount: 4 }, // 5 //
+  { night: 5, woman: 'michelle', man: 'ema', matchCount: 4 }, // 1 3 4 5 //
+
+  { night: 4, woman: 'marla', man: 'julianm', matchCount: 5 },  // 1 //
+  { night: 4, woman: 'linda', man: 'chris', matchCount: 5 }, // 1 3 4 //
+  { night: 4, woman: 'toni', man: 'noel', matchCount: 5 }, // 1 3 4 //
+  { night: 4, woman: 'adriana', man: 'julians', matchCount: 5 }, // 4 //
+  { night: 4, woman: 'aurora', man: 'evi', matchCount: 5 }, // 4 // 
+  { night: 4, woman: 'tiziana', man: 'jeronymo', matchCount: 5 }, // 1 2 3 4 //
+  { night: 4, woman: 'elena', man: 'jerry', matchCount: 5 }, // 1 4 //
+  { night: 4, woman: 'ella', man: 'meji', matchCount: 5 }, // 1 4 // 
+  { night: 4, woman: 'laura', man: 'luke', matchCount: 5 }, // 4 //
+  { night: 4, woman: 'michelle', man: 'ema', matchCount: 5 }, // 1 3 4 //
 
   // VERKAUFT
   // { night: 4, woman: 'marla', man: 'julianm', matchCount: 1 },  // match
