@@ -69,6 +69,17 @@ const menCandidates: string[] = [
 // Matching night results
 const matchingNights: MatchingNight[] = [
 
+  { night: 6, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
+  { night: 6, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
+  { night: 6, woman: 'aurora', man: 'evi', matchCount: 4 }, // 18%
+  { night: 6, woman: 'elena', man: 'luke', matchCount: 4 }, // 0 %
+  { night: 6, woman: 'ella', man: 'meji', matchCount: 4 }, // 0%
+  { night: 6, woman: 'adriana', man: 'julians', matchCount: 4 }, // 81%
+  { night: 6, woman: 'laura', man: 'jerry', matchCount: 4 }, // 0%
+  { night: 6, woman: 'linda', man: 'chris', matchCount: 4 }, // 9%
+  { night: 6, woman: 'tiziana', man: 'jeronymo', matchCount: 4 }, // 90%
+  { night: 6, woman: 'michelle', man: 'ema', matchCount: 4 }, // 0 %
+
   { night: 5, woman: 'marla', man: 'julianm', matchCount: 4 },  // 1 //
   { night: 5, woman: 'linda', man: 'evi', matchCount: 4 }, // 5 //
   { night: 5, woman: 'toni', man: 'noel', matchCount: 4 }, // 1 3 4 5 //
