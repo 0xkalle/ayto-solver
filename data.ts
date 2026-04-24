@@ -49,6 +49,7 @@ const matchboxResults: MatchboxResult[] = [
   { man: 'julianm', woman: 'marla', isMatch: true },
   { man: 'chris', woman: 'aurora', isMatch: false },
   { man: 'noel', woman: 'toni', isMatch: true },
+  { man: 'ema', woman: 'michelle', isMatch: false },
 
 
 ];
@@ -68,6 +69,28 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+
+  { night: 8, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
+  { night: 8, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
+  { night: 8, woman: 'aurora', man: 'evi', matchCount: 4 }, //
+  { night: 8, woman: 'elena', man: 'luke', matchCount: 4 }, //
+  { night: 8, woman: 'ella', man: 'meji', matchCount: 4 }, //
+  { night: 8, woman: 'adriana', man: 'julians', matchCount: 4 }, //
+  { night: 8, woman: 'laura', man: 'jerry', matchCount: 4 }, //
+  { night: 8, woman: 'linda', man: 'chris', matchCount: 4 }, //
+  { night: 8, woman: 'tiziana', man: 'jeronymo', matchCount: 4 }, //
+  { night: 8, woman: 'michelle', man: 'ema', matchCount: 4 }, // 
+
+  { night: 7, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
+  { night: 7, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
+  { night: 7, woman: 'aurora', man: 'evi', matchCount: 4 }, //
+  { night: 7, woman: 'elena', man: 'luke', matchCount: 4 }, //
+  { night: 7, woman: 'ella', man: 'meji', matchCount: 4 }, //
+  { night: 7, woman: 'adriana', man: 'julians', matchCount: 4 }, //
+  { night: 7, woman: 'laura', man: 'jerry', matchCount: 4 }, //
+  { night: 7, woman: 'linda', man: 'chris', matchCount: 4 }, //
+  { night: 7, woman: 'tiziana', man: 'jeronymo', matchCount: 4 }, //
+  { night: 7, woman: 'michelle', man: 'ema', matchCount: 4 }, // 
 
   { night: 6, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
   { night: 6, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
