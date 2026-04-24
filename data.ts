@@ -50,6 +50,7 @@ const matchboxResults: MatchboxResult[] = [
   { man: 'chris', woman: 'aurora', isMatch: false },
   { man: 'noel', woman: 'toni', isMatch: true },
   { man: 'ema', woman: 'michelle', isMatch: false },
+  // { man: 'meji', woman: 'ella', isMatch: false }, verkauft
 
 
 ];
@@ -69,6 +70,17 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+
+  { night: 8, woman: 'marla', man: 'julianm', matchCount: 3 }, // DONE
+  { night: 8, woman: 'toni', man: 'noel', matchCount: 3 }, // DONE
+  { night: 8, woman: 'linda', man: 'ema', matchCount: 3 }, // 50%
+  { night: 8, woman: 'adriana', man: 'luke', matchCount: 3 }, // 0%
+  { night: 8, woman: 'ella', man: 'meji', matchCount: 3 }, // 0%
+  { night: 8, woman: 'laura', man: 'julians', matchCount: 3 }, // 0%
+  { night: 8, woman: 'elena', man: 'jerry', matchCount: 3 }, // 100%
+  { night: 8, woman: 'tiziana', man: 'chris', matchCount: 3 }, // 0%
+  { night: 8, woman: 'michelle', man: 'jeronymo', matchCount: 3 }, // 0%
+  { night: 8, woman: 'aurora', man: 'evi', matchCount: 3 }, // 0%
 
   { night: 7, woman: 'marla', man: 'julianm', matchCount: 5 }, // DONE
   { night: 7, woman: 'toni', man: 'noel', matchCount: 5 }, // DONE
