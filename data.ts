@@ -24,8 +24,8 @@ export interface MatchingNight {
 const doubleMatchWoman: string | string[] | string[][] | null = ['alicia'];
 const doubleMatchMan: string | string[] | string[][] | null = null;
 
-const excludedMen: string[] | null = ['julianm'];
-const excludedWomen: string[] | null = ['marla'];
+const excludedMen: string[] | null = ['julianm', 'noel'];
+const excludedWomen: string[] | null = ['marla', 'toni'];
 
 const womenCandidates: string[] = [
   'alicia',
@@ -70,27 +70,16 @@ const menCandidates: string[] = [
 // Matching night results
 const matchingNights: MatchingNight[] = [
 
-  { night: 8, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
-  { night: 8, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
-  { night: 8, woman: 'aurora', man: 'evi', matchCount: 4 }, //
-  { night: 8, woman: 'elena', man: 'luke', matchCount: 4 }, //
-  { night: 8, woman: 'ella', man: 'meji', matchCount: 4 }, //
-  { night: 8, woman: 'adriana', man: 'julians', matchCount: 4 }, //
-  { night: 8, woman: 'laura', man: 'jerry', matchCount: 4 }, //
-  { night: 8, woman: 'linda', man: 'chris', matchCount: 4 }, //
-  { night: 8, woman: 'tiziana', man: 'jeronymo', matchCount: 4 }, //
-  { night: 8, woman: 'michelle', man: 'ema', matchCount: 4 }, // 
-
-  { night: 7, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
-  { night: 7, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
-  { night: 7, woman: 'aurora', man: 'evi', matchCount: 4 }, //
-  { night: 7, woman: 'elena', man: 'luke', matchCount: 4 }, //
-  { night: 7, woman: 'ella', man: 'meji', matchCount: 4 }, //
-  { night: 7, woman: 'adriana', man: 'julians', matchCount: 4 }, //
-  { night: 7, woman: 'laura', man: 'jerry', matchCount: 4 }, //
-  { night: 7, woman: 'linda', man: 'chris', matchCount: 4 }, //
-  { night: 7, woman: 'tiziana', man: 'jeronymo', matchCount: 4 }, //
-  { night: 7, woman: 'michelle', man: 'ema', matchCount: 4 }, // 
+  { night: 7, woman: 'marla', man: 'julianm', matchCount: 5 }, // DONE
+  { night: 7, woman: 'toni', man: 'noel', matchCount: 5 }, // DONE
+  { night: 7, woman: 'aurora', man: 'ema', matchCount: 5 }, // 27%
+  { night: 7, woman: 'laura', man: 'luke', matchCount: 5 }, // 0%
+  { night: 7, woman: 'ella', man: 'meji', matchCount: 5 }, // 0%
+  { night: 7, woman: 'adriana', man: 'julians', matchCount: 5 }, // 81%
+  { night: 7, woman: 'elena', man: 'jerry', matchCount: 5 }, // 100%
+  { night: 7, woman: 'linda', man: 'chris', matchCount: 5 }, // 9%
+  { night: 7, woman: 'tiziana', man: 'jeronymo', matchCount: 5 }, // 90%
+  { night: 7, woman: 'michelle', man: 'evi', matchCount: 5 }, // 45%
 
   { night: 6, woman: 'marla', man: 'julianm', matchCount: 4 }, // DONE
   { night: 6, woman: 'toni', man: 'noel', matchCount: 4 }, // DONE
