@@ -38,6 +38,7 @@ const womenCandidates: string[] = [
   'jennifer',
   'linda',
   'lauram',
+  'dana',
 ];
 
 // Matchbox results: confirmed matches and non-matches
@@ -60,16 +61,16 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
-  //{ night: 1, woman: 'toni', man: 'noel', matchCount: 3 },
-  //{ night: 1, woman: 'aurora', man: 'julians', matchCount: 3 },
-  //{ night: 1, woman: 'linda', man: 'chris', matchCount: 3 },
-  //{ night: 1, woman: 'adriana', man: 'julianm', matchCount: 3 },
-  //{ night: 1, woman: 'laura', man: 'evi', matchCount: 3 },
-  //{ night: 1, woman: 'tiziana', man: 'jeronymo', matchCount: 3 },
-  //{ night: 1, woman: 'elena', man: 'jerry', matchCount: 3 },
-  //{ night: 1, woman: 'michelle', man: 'ema', matchCount: 3 },
-  //{ night: 1, woman: 'marla', man: 'luke', matchCount: 3 },
-  //{ night: 1, woman: 'ella', man: 'meji', matchCount: 3 },
+  { night: 1, woman: 'lauram', man: 'antonino', matchCount: 2 },
+  { night: 1, woman: 'emmy', man: 'chris', matchCount: 2 },
+  { night: 1, woman: 'jennifer', man: 'lukas', matchCount: 2 },
+  { night: 1, woman: 'laural', man: 'alexander', matchCount: 2 },
+  { night: 1, woman: 'linda', man: 'tim', matchCount: 2 },
+  { night: 1, woman: 'gabriela', man: 'ozan', matchCount: 2 },
+  { night: 1, woman: 'anastasia', man: 'marcrobin', matchCount: 2 },
+  { night: 1, woman: 'asena', man: 'kaan', matchCount: 2 },
+  { night: 1, woman: 'tara', man: 'niko', matchCount: 2 },
+  { night: 1, woman: 'nadja', man: 'lars', matchCount: 2 },
 ];
 
 export {
