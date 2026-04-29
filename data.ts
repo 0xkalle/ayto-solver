@@ -62,6 +62,18 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+
+  { night: 2, woman: 'chris', man: 'emmy', matchCount: 3 }, // RICHTIG
+  { night: 2, woman: 'lauram', man: 'lukas', matchCount: 3 }, // 2
+  { night: 2, woman: 'jennifer', man: 'alexander', matchCount: 3 }, // 2
+  { night: 2, woman: 'laural', man: 'ozan', matchCount: 3 }, // 2
+  { night: 2, woman: 'linda', man: 'tim', matchCount: 3 }, // 1 2
+  { night: 2, woman: 'dana', man: 'antonino', matchCount: 3 }, // 2
+  { night: 2, woman: 'anastasia', man: 'lars', matchCount: 3 }, // 2
+  { night: 2, woman: 'asena', man: 'marcrobin', matchCount: 3 }, // 2
+  { night: 2, woman: 'tara', man: 'niko', matchCount: 3 }, // 1 2
+  { night: 2, woman: 'nadja', man: 'kaan', matchCount: 3 }, // 2
+
   { night: 1, woman: 'lauram', man: 'antonino', matchCount: 2 },
   { night: 1, woman: 'emmy', man: 'chris', matchCount: 2 },
   { night: 1, woman: 'jennifer', man: 'lukas', matchCount: 2 },
