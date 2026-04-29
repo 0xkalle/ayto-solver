@@ -21,11 +21,11 @@ export interface MatchingNight {
 
 
 // const doubleMatchMan: string | string[] | string[][] | null = ['jimi'];
-const doubleMatchWoman: string | string[] | string[][] | null = null;
+const doubleMatchWoman: string | string[] | string[][] | null = ['dana'];
 const doubleMatchMan: string | string[] | string[][] | null = null;
 
-const excludedMen: string[] | null = null;
-const excludedWomen: string[] | null = null;
+const excludedMen: string[] | null = ['chris'];
+const excludedWomen: string[] | null = ['emmy'];
 
 const womenCandidates: string[] = [
   'tara',
@@ -44,6 +44,7 @@ const womenCandidates: string[] = [
 // Matchbox results: confirmed matches and non-matches
 const matchboxResults: MatchboxResult[] = [
   { man: 'marcrobin', woman: 'laural', isMatch: false },
+  { man: 'chris', woman: 'emmy', isMatch: true },
 ];
 
 const menCandidates: string[] = [
