@@ -45,6 +45,8 @@ const womenCandidates: string[] = [
 const matchboxResults: MatchboxResult[] = [
   { man: 'marcrobin', woman: 'laural', isMatch: false },
   { man: 'chris', woman: 'emmy', isMatch: true },
+  // { man: 'alexander', woman: 'anastasia', isMatch: false }, verkauft
+  { man: 'marcrobin', woman: 'asena', isMatch: false },
 ];
 
 const menCandidates: string[] = [
@@ -63,7 +65,29 @@ const menCandidates: string[] = [
 // Matching night results
 const matchingNights: MatchingNight[] = [
 
-  { night: 2, woman: 'chris', man: 'emmy', matchCount: 3 }, // RICHTIG
+  { night: 4, woman: 'emmy', man: 'chris', matchCount: 1 }, // RICHTIG
+  { night: 4, woman: 'gabriela', man: 'lukas', matchCount: 1 }, // 4
+  { night: 4, woman: 'anastasia', man: 'niko', matchCount: 1 }, // 4
+  { night: 4, woman: 'lauram', man: 'ozan', matchCount: 1 }, // 3 4
+  { night: 4, woman: 'asena', man: 'kaan', matchCount: 1 }, // 4
+  { night: 4, woman: 'nadja', man: 'antonino', matchCount: 1 }, // 3 4
+  { night: 4, woman: 'tara', man: 'lars', matchCount: 1 }, // 4
+  { night: 4, woman: 'linda', man: 'marcrobin', matchCount: 1 }, // 4
+  { night: 4, woman: 'laural', man: 'tim', matchCount: 1 }, // 4
+  { night: 4, woman: 'jennifer', man: 'alexander', matchCount: 1 }, // 2 4
+
+  { night: 3, woman: 'emmy', man: 'chris', matchCount: 3 }, // RICHTIG
+  { night: 3, woman: 'linda', man: 'lukas', matchCount: 3 }, // 3
+  { night: 3, woman: 'anastasia', man: 'alexander', matchCount: 3 }, // 3
+  { night: 3, woman: 'lauram', man: 'ozan', matchCount: 3 }, // 3
+  { night: 3, woman: 'dana', man: 'tim', matchCount: 3 }, // 3
+  { night: 3, woman: 'nadja', man: 'antonino', matchCount: 3 }, // 3
+  { night: 3, woman: 'gabriela', man: 'lars', matchCount: 3 }, // 3
+  { night: 3, woman: 'asena', man: 'marcrobin', matchCount: 3 }, // 2 3
+  { night: 3, woman: 'laural', man: 'niko', matchCount: 3 }, // 3
+  { night: 3, woman: 'jennifer', man: 'kaan', matchCount: 3 }, // 3
+
+  { night: 2, woman: 'emmy', man: 'chris', matchCount: 3 }, // RICHTIG
   { night: 2, woman: 'lauram', man: 'lukas', matchCount: 3 }, // 2
   { night: 2, woman: 'jennifer', man: 'alexander', matchCount: 3 }, // 2
   { night: 2, woman: 'laural', man: 'ozan', matchCount: 3 }, // 2
