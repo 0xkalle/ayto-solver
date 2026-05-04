@@ -47,6 +47,7 @@ const matchboxResults: MatchboxResult[] = [
   { man: 'chris', woman: 'emmy', isMatch: true },
   // { man: 'alexander', woman: 'anastasia', isMatch: false }, verkauft
   { man: 'marcrobin', woman: 'asena', isMatch: false },
+  // { man: 'niko', woman: 'lauram', isMatch: false }, verkauft
 ];
 
 const menCandidates: string[] = [
@@ -64,6 +65,17 @@ const menCandidates: string[] = [
 
 // Matching night results
 const matchingNights: MatchingNight[] = [
+
+  { night: 5, woman: 'emmy', man: 'chris', matchCount: 5 }, // RICHTIG
+  { night: 5, woman: 'jennifer', man: 'lukas', matchCount: 5 }, // 1 5
+  { night: 5, woman: 'laural', man: 'niko', matchCount: 5 }, // 3 5
+  { night: 5, woman: 'dana', man: 'ozan', matchCount: 5 }, // 5
+  { night: 5, woman: 'tara', man: 'kaan', matchCount: 5 }, // 5
+  { night: 5, woman: 'asena', man: 'antonino', matchCount: 5 }, // 5
+  { night: 5, woman: 'nadja', man: 'lars', matchCount: 5 }, // 1 5
+  { night: 5, woman: 'anastasia', man: 'marcrobin', matchCount: 5 }, // 1 5
+  { night: 5, woman: 'linda', man: 'tim', matchCount: 5 }, // 1 2 5
+  { night: 5, woman: 'gabriela', man: 'alexander', matchCount: 5 }, // 5
 
   { night: 4, woman: 'emmy', man: 'chris', matchCount: 1 }, // RICHTIG
   { night: 4, woman: 'gabriela', man: 'lukas', matchCount: 1 }, // 4
