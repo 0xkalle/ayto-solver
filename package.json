@@ -2,14 +2,19 @@
   "name": "ayto-solver",
   "version": "1.0.0",
   "description": "Are You The One? game solver using brute force probability analysis",
-  "main": "ayto-solver.ts",
+  "main": "server.ts",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-strip-types ayto-solver.ts",
-    "dev": "node --experimental-strip-types ayto-solver.ts",
+    "start": "node --experimental-strip-types server.ts",
+    "cli": "node --experimental-strip-types ayto-solver.ts",
     "test": "node --experimental-strip-types --test **/*.test.ts"
   },
-  "keywords": ["ayto", "game-solver", "probability", "brute-force"],
+  "keywords": [
+    "ayto",
+    "game-solver",
+    "probability",
+    "brute-force"
+  ],
   "author": "",
   "license": "ISC"
 }

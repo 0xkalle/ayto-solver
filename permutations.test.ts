@@ -10,7 +10,7 @@ import {
   factorial,
   binomial
 } from './permutations.ts';
-import type { MatchPair } from './data.ts';
+import type { MatchPair } from './types.ts';
 
 describe('permutations.ts', () => {
   describe('factorial', () => {

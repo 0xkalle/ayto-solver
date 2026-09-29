@@ -1,6 +1,6 @@
 // Validation functions for checking combinations against known constraints
 
-import type { MatchPair, MatchboxResult, MatchingNight } from './data.ts';
+import type { MatchPair, MatchboxResult, MatchingNight } from './types.ts';
 
 interface NightGroup {
   man: string;

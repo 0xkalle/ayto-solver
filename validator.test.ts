@@ -9,7 +9,7 @@ import {
   groupByNight,
   doubleMatchConstrain
 } from './validator.ts';
-import type { MatchPair, MatchboxResult, MatchingNight } from './data.ts';
+import type { MatchPair, MatchboxResult, MatchingNight } from './types.ts';
 
 describe('validator.ts', () => {
   // Test data

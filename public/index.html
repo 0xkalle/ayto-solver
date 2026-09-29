@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>AYTO Solver</title>
+<style>
+:root {
+  --bg: #f4f4f7; --card: #fff; --fg: #1b1b22; --muted: #6b6b78; --line: #dcdce3;
+  --accent: #6a3de8; --accent-fg: #fff; --good: #1f9d55; --bad: #d64545; --bar: #e6e1fb;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111117; --card: #1c1c24; --fg: #ececf2; --muted: #9a9aa8; --line: #2f2f3a;
+    --accent: #9b7bff; --accent-fg: #111; --good: #3ecf7a; --bad: #ff6b6b; --bar: #2c2545; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); overflow-x: hidden;
+  font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 12px 16px 8px; border-bottom: 1px solid var(--line); }
+header h1 { margin: 0; font-size: 18px; }
+#status { font-size: 13px; color: var(--muted); min-height: 18px; }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-top: 4px; }
+.progress > div { height: 100%; background: var(--accent); transition: width .3s; }
+main { padding: 12px 16px calc(84px + env(safe-area-inset-bottom)); max-width: 720px; margin: 0 auto; }
+nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--card);
+  border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); z-index: 10; }
+nav a { flex: 1; text-align: center; padding: 10px 0 12px; color: var(--muted); text-decoration: none; font-size: 13px; min-height: 56px; }
+nav a span { display: block; font-size: 20px; }
+nav a.on { color: var(--accent); font-weight: 600; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+.card h2 { margin: 0 0 8px; font-size: 16px; }
+.muted { color: var(--muted); font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stats div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px; min-width: 0; }
+.stats b { display: block; font-size: 16px; overflow-wrap: anywhere; }
+.stats small { color: var(--muted); font-size: 12px; }
+input, select, button { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+  border-radius: 8px; min-height: 44px; padding: 8px 10px; max-width: 100%; }
+button { background: var(--accent); color: var(--accent-fg); border: 0; font-weight: 600; cursor: pointer; padding: 8px 16px; }
+button.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+button.del { background: transparent; color: var(--bad); border: 1px solid var(--line); min-width: 44px; padding: 4px 10px; }
+button:disabled { opacity: .5; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.row > select, .row > input { flex: 1 1 120px; min-width: 0; }
+label.inline { display: flex; align-items: center; gap: 6px; min-height: 44px; }
+label.inline input { min-height: 0; width: 20px; height: 20px; }
+.pair { display: flex; align-items: center; gap: 8px; padding: 10px 4px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.pair:last-child { border-bottom: 0; }
+.pair .names { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pair .pct { font-variant-numeric: tabular-nums; font-weight: 600; }
+.bar { height: 3px; background: var(--bar); border-radius: 2px; margin: 0 4px; }
+.bar > div { height: 100%; background: var(--accent); border-radius: 2px; }
+.item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.item:last-child { border-bottom: 0; }
+.item > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.tag { font-size: 11px; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.good { color: var(--good); } .bad { color: var(--bad); }
+.err { background: var(--bad); color: #fff; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 16px; padding: 4px 4px 4px 10px; font-size: 14px; }
+.chip button { min-height: 32px; min-width: 32px; padding: 0; background: transparent; color: var(--muted); }
+.nightpair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 8px; align-items: center; margin-bottom: 6px; }
+.nightpair select { width: 100%; }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table.heat { border-collapse: collapse; font-size: 11px; }
+table.heat th, table.heat td { border: 1px solid var(--line); padding: 4px; text-align: center; min-width: 38px; }
+table.heat th { position: sticky; left: 0; background: var(--card); }
+table.heat thead th { writing-mode: vertical-rl; transform: rotate(180deg); position: static; }
+.spin { display: inline-block; width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent;
+  border-radius: 50%; animation: s .8s linear infinite; vertical-align: -3px; }
+@keyframes s { to { transform: rotate(360deg); } }
+h3 { font-size: 14px; margin: 12px 0 4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Are You The One? Solver</h1>
+  <div id="status">Loading…</div>
+  <div class="progress" id="prog" hidden><div></div></div>
+</header>
+<main id="main"></main>
+<nav>
+  <a href="#stats" data-tab="stats"><span>📊</span>Stats</a>
+  <a href="#entry" data-tab="entry"><span>✏️</span>Entry</a>
+  <a href="#known" data-tab="known"><span>✅</span>Known</a>
+  <a href="#assume" data-tab="assume"><span>🤔</span>Assume</a>
+</nav>
+<script>
+'use strict';
+let data = null, res = null, err = '', pollTimer = null;
+let filter = '', heat = false, whatIf = null, whatIfBusy = false, whatIfBase = null;
+let assumptions = [];
+try { assumptions = JSON.parse(localStorage.getItem('ayto-assumptions')) || []; } catch (e) {}
+const saveAssumptions = () => { try { localStorage.setItem('ayto-assumptions', JSON.stringify(assumptions)); } catch (e) {} };
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cap = s => esc(s ? s[0].toUpperCase() + s.slice(1) : s);
+const num = n => n == null ? '–' : Number(n).toLocaleString();
+function pct(p) {
+  if (p >= 1) return '100%';
+  if (p <= 0) return '0%';
+  if (p < 0.001) return '<0.1%';
+  if (p > 0.999) return '>99.9%';
+  return (p * 100).toFixed(1) + '%';
+}
+const opts = (list, sel) => list.map(n => `<option value="${esc(n)}"${n === sel ? ' selected' : ''}>${cap(n)}</option>`).join('');
+const tab = () => (['stats', 'entry', 'known', 'assume'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'stats');
+
+async function api(method, url, body) {
+  const r = await fetch(url, { method, headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || `${r.status} ${r.statusText}`);
+  return j;
+}
+
+async function loadData() {
+  try { data = await api('GET', '/api/data'); } catch (e) { err = 'Loading data failed: ' + e.message; }
+}
+
+async function poll() {
+  clearTimeout(pollTimer);
+  try {
+    const r = await api('GET', '/api/result');
+    // keep previous result visible while solving
+    res = { ...r, result: r.result || (res && res.result) };
+  } catch (e) {
+    res = { ...(res || {}), status: 'error', error: e.message };
+  }
+  renderStatus();
+  if (res.status === 'solving') pollTimer = setTimeout(poll, 1000);
+  else if (!busyInput()) render();
+}
+// don't wipe half-filled forms on background refresh
+const busyInput = () => document.activeElement && ['INPUT', 'SELECT'].includes(document.activeElement.tagName) && tab() !== 'stats';
+
+async function save(next) {
+  try {
+    await api('PUT', '/api/data', next);
+    data = next; err = '';
+  } catch (e) {
+    err = 'Save failed: ' + e.message;
+    await loadData();
+  }
+  render();
+  poll();
+}
+
+function renderStatus() {
+  const s = $('#status'), p = $('#prog');
+  p.hidden = !res || res.status !== 'solving';
+  if (!res) { s.textContent = 'Loading…'; return; }
+  if (res.status === 'solving') { s.textContent = `Solving… ${Math.round((res.progress || 0) * 100)}%`; p.firstChild.style.width = (res.progress || 0) * 100 + '%'; }
+  else if (res.status === 'error') s.innerHTML = `<span class="bad">Solver error: ${esc(res.error || 'unknown')}</span>`;
+  else s.textContent = res.result ? `${num(res.result.validCombinations)} valid combinations` : 'No result yet';
+}
+
+function render() {
+  document.querySelectorAll('nav a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab()));
+  const errHtml = err ? `<div class="err">${esc(err)}</div>` : '';
+  if (!data) { $('#main').innerHTML = errHtml || '<p class="muted">Loading…</p>'; return; }
+  $('#main').innerHTML = errHtml + { stats: viewStats, entry: viewEntry, known: viewKnown, assume: viewAssume }[tab()]();
+  if (tab() === 'entry') updateNightSelects();
+}
+
+// ---------- Stats ----------
+function viewStats() {
+  const r = res && res.result;
+  if (!r) return '<p class="muted">No result yet.</p>';
+  const each = r.validCombinations ? 1 / r.validCombinations : 0;
+  let html = `<div class="stats">
+    <div><small>Total</small><b>${num(r.totalCombinations)}</b></div>
+    <div><small>Valid</small><b>${num(r.validCombinations)}</b></div>
+    <div><small>Each valid</small><b>${each ? pct(each) : '–'}</b></div></div>
+    <div class="row" style="margin-top:12px"><input id="filter" type="search" placeholder="Filter by name" value="${esc(filter)}">
+    <button class="ghost" id="heatbtn">${heat ? 'List' : 'Heatmap'}</button></div>`;
+  if (heat) {
+    const m = {}; r.pairs.forEach(p => m[p.man + '|' + p.woman] = p.probability);
+    const f = filter.toLowerCase();
+    const men = data.men.filter(n => n.includes(f)), women = data.women;
+    html += `<div class="card scroll"><table class="heat"><thead><tr><th></th>${women.map(w => `<th>${cap(w)}</th>`).join('')}</tr></thead><tbody>` +
+      men.map(mn => `<tr><th>${cap(mn)}</th>${women.map(w => { const p = m[mn + '|' + w] || 0;
+        return `<td style="background:rgba(130,90,255,${p.toFixed(3)});${p > .5 ? 'color:#fff' : ''}">${p ? Math.round(p * 100) : ''}</td>`; }).join('')}</tr>`).join('') +
+      '</tbody></table></div>';
+  } else {
+    const f = filter.toLowerCase();
+    const list = r.pairs.filter(p => p.probability > 0 && (!f || p.man.includes(f) || p.woman.includes(f)));
+    html += `<div class="card">${list.map(p => `<div class="pair" data-man="${esc(p.man)}" data-woman="${esc(p.woman)}" title="Tap to assume">
+      <span class="names">${cap(p.man)} ↔ ${cap(p.woman)}</span><span class="pct">${pct(p.probability)}</span></div>
+      <div class="bar"><div style="width:${p.probability * 100}%"></div></div>`).join('') || '<p class="muted">No pairs.</p>'}</div>
+      <p class="muted">Tap a pair to add it as an assumption.</p>`;
+  }
+  return html;
+}
+
+// ---------- Entry ----------
+function viewEntry() {
+  const nextNight = Math.max(0, ...data.matchingNights.map(n => n.night)) + 1;
+  const nights = {};
+  data.matchingNights.forEach(n => (nights[n.night] = nights[n.night] || []).push(n));
+  return `<div class="card"><h2>Matchbox</h2>
+    <div class="row"><select id="mbMan">${opts(data.men)}</select><select id="mbWoman">${opts(data.women)}</select></div>
+    <div class="row"><select id="mbRes"><option value="1">Perfect match</option><option value="0" selected>No match</option></select>
+    <button id="mbAdd">Add</button></div></div>
+  <div class="card"><h2>Matching night</h2>
+    <div class="row"><label>Night <input id="nNum" type="number" min="1" value="${nextNight}" style="width:80px"></label>
+    <label>Lights <input id="nCount" type="number" min="0" max="${data.men.length}" value="0" style="width:80px"></label></div>
+    ${data.men.map(m => `<div class="nightpair"><span>${cap(m)}</span><select class="nSel" data-man="${esc(m)}"><option value="">—</option>${opts(data.women)}</select></div>`).join('')}
+    <button id="nAdd">Add night</button></div>
+  <div class="card"><h2>Matchbox results</h2>
+    ${data.matchboxResults.map((r, i) => `<div class="item"><span>${cap(r.man)} ↔ ${cap(r.woman)}</span>
+      <b class="${r.isMatch ? 'good' : 'bad'}">${r.isMatch ? 'Match' : 'No match'}</b><button class="del" data-delmb="${i}">✕</button></div>`).join('') || '<p class="muted">None yet.</p>'}</div>
+  <div class="card"><h2>Matching nights</h2>
+    ${Object.keys(nights).sort((a, b) => a - b).map(k => `<h3>Night ${esc(k)} · ${esc(nights[k][0].matchCount)} lights
+      <button class="del" data-delnight="${esc(k)}">✕</button></h3>
+      <div class="muted">${nights[k].map(n => `${cap(n.man)} ↔ ${cap(n.woman)}`).join(' · ')}</div>`).join('') || '<p class="muted">None yet.</p>'}</div>`;
+}
+
+function updateNightSelects() {
+  const sels = [...document.querySelectorAll('.nSel')];
+  const used = sels.map(s => s.value);
+  sels.forEach(s => [...s.options].forEach(o => { o.disabled = !!o.value && o.value !== s.value && used.includes(o.value); }));
+}
+
+// ---------- Known ----------
+function viewKnown() {
+  const r = res && res.result;
+  const key = p => p.man + '|' + p.woman;
+  const known = data.matchboxResults.filter(m => m.isMatch).map(m => ({ ...m, src: 'matchbox' }));
+  const imp = data.matchboxResults.filter(m => !m.isMatch).map(m => ({ ...m, src: 'matchbox' }));
+  if (r && r.validCombinations > 0) {
+    const kk = new Set(known.map(key)), ik = new Set(imp.map(key));
+    r.pairs.forEach(p => {
+      if (p.count === r.validCombinations && !kk.has(key(p))) known.push({ ...p, src: 'calculated' });
+      if (p.count === 0 && !ik.has(key(p))) imp.push({ ...p, src: 'calculated' });
+    });
+  }
+  const byMan = {};
+  imp.forEach(p => (byMan[p.man] = byMan[p.man] || []).push(p));
+  const note = r && r.validCombinations === 0 ? '<div class="err">No valid combinations — the data is contradictory.</div>' : '';
+  return note + `<div class="card"><h2 class="good">Known matches (${known.length})</h2>
+    ${known.map(p => `<div class="item"><span>${cap(p.man)} ↔ ${cap(p.woman)}</span><span class="tag">${p.src}</span></div>`).join('') || '<p class="muted">None yet.</p>'}</div>
+  <div class="card"><h2 class="bad">Impossible (${imp.length})</h2>
+    ${data.men.filter(m => byMan[m]).map(m => `<h3>${cap(m)}</h3><div>${byMan[m].map(p =>
+      `<span class="chip" style="margin:2px">${cap(p.woman)} <span class="tag">${p.src === 'matchbox' ? 'box' : 'calc'}</span></span>`).join('')}</div>`).join('') || '<p class="muted">None yet.</p>'}</div>`;
+}
+
+// ---------- Assumptions ----------
+function viewAssume() {
+  let html = `<div class="card"><h2>Assumptions</h2>
+    <div class="row"><select id="aMan">${opts(data.men, assumeSel.man)}</select><select id="aWoman">${opts(data.women, assumeSel.woman)}</select></div>
+    <div class="row"><select id="aRes"><option value="1">Believe match</option><option value="0">Believe no match</option></select><button id="aAdd">Add</button></div>
+    <div class="chips">${assumptions.map((a, i) => `<span class="chip ${a.isMatch ? 'good' : 'bad'}">${a.isMatch ? '✓' : '✗'} ${cap(a.man)} ↔ ${cap(a.woman)}<button data-dela="${i}" aria-label="Remove">✕</button></span>`).join('') || '<span class="muted">No assumptions yet.</span>'}</div>
+    <div class="row" style="margin-top:12px"><button id="aCalc" ${whatIfBusy || !assumptions.length ? 'disabled' : ''}>${whatIfBusy ? '<span class="spin"></span> Calculating…' : 'Calculate'}</button>
+    ${assumptions.length ? '<button class="ghost" id="aClear">Clear</button>' : ''}</div></div>`;
+  if (whatIf) {
+    const base = whatIfBase;
+    if (whatIf.validCombinations === 0) {
+      html += '<div class="err">These assumptions contradict the data — no valid combination is left.</div>';
+    } else {
+      const old = {}; (base ? base.pairs : []).forEach(p => old[p.man + '|' + p.woman] = p.probability);
+      const diff = whatIf.pairs.map(p => ({ ...p, old: old[p.man + '|' + p.woman] || 0 }))
+        .map(p => ({ ...p, d: p.probability - p.old })).filter(p => Math.abs(p.d) > 1e-9)
+        .sort((a, b) => Math.abs(b.d) - Math.abs(a.d));
+      html += `<div class="stats"><div><small>Valid now</small><b>${num(base && base.validCombinations)}</b></div>
+        <div><small>Assumed</small><b>${num(whatIf.validCombinations)}</b></div>
+        <div><small>Remaining</small><b>${base && base.validCombinations ? pct(whatIf.validCombinations / base.validCombinations) : '–'}</b></div></div>
+        <div class="card" style="margin-top:12px"><h2>Changed probabilities (${diff.length})</h2>
+        ${diff.map(p => `<div class="item"><span>${cap(p.man)} ↔ ${cap(p.woman)}</span>
+          <span class="muted">${pct(p.old)} →</span><b class="${p.d > 0 ? 'good' : 'bad'}">${pct(p.probability)} ${p.d > 0 ? '▲' : '▼'}</b></div>`).join('') || '<p class="muted">Nothing changed.</p>'}</div>`;
+    }
+  }
+  return html;
+}
+let assumeSel = {};
+
+async function calcWhatIf() {
+  whatIfBusy = true; whatIf = null; whatIfBase = res && res.result; render();
+  try { whatIf = await api('POST', '/api/what-if', { assumptions }); err = ''; }
+  catch (e) { err = 'What-if failed: ' + e.message; }
+  whatIfBusy = false; render();
+}
+
+// ---------- Events ----------
+document.addEventListener('input', e => {
+  if (e.target.id === 'filter') { filter = e.target.value; const pos = e.target.selectionStart; render(); const f = $('#filter'); f.focus(); f.setSelectionRange(pos, pos); }
+});
+document.addEventListener('change', e => { if (e.target.classList.contains('nSel')) updateNightSelects(); });
+document.addEventListener('click', e => {
+  const t = e.target.closest('button, .pair');
+  if (!t) return;
+  const d = t.dataset;
+  if (t.id === 'heatbtn') { heat = !heat; render(); }
+  else if (t.classList.contains('pair')) { assumeSel = { man: d.man, woman: d.woman }; location.hash = 'assume'; }
+  else if (t.id === 'mbAdd') {
+    const r = { man: $('#mbMan').value, woman: $('#mbWoman').value, isMatch: $('#mbRes').value === '1' };
+    save({ ...data, matchboxResults: [...data.matchboxResults, r] });
+  } else if (t.id === 'nAdd') {
+    const night = parseInt($('#nNum').value, 10), matchCount = parseInt($('#nCount').value, 10);
+    const pairs = [...document.querySelectorAll('.nSel')].filter(s => s.value).map(s => ({ night, man: s.dataset.man, woman: s.value, matchCount }));
+    if (!(night > 0) || !(matchCount >= 0)) { err = 'Enter a valid night number and light count.'; return render(); }
+    if (!pairs.length) { err = 'Pick at least one pair.'; return render(); }
+    if (data.matchingNights.some(n => n.night === night)) { err = `Night ${night} already exists — delete it first.`; return render(); }
+    if (matchCount > pairs.length) { err = 'More lights than pairs.'; return render(); }
+    save({ ...data, matchingNights: [...data.matchingNights, ...pairs] });
+  } else if (d.delmb != null) {
+    if (confirm('Delete this matchbox result?')) save({ ...data, matchboxResults: data.matchboxResults.filter((_, i) => i !== +d.delmb) });
+  } else if (d.delnight != null) {
+    if (confirm(`Delete night ${d.delnight}?`)) save({ ...data, matchingNights: data.matchingNights.filter(n => String(n.night) !== d.delnight) });
+  } else if (t.id === 'aAdd') {
+    const a = { man: $('#aMan').value, woman: $('#aWoman').value, isMatch: $('#aRes').value === '1' };
+    assumptions = assumptions.filter(x => !(x.man === a.man && x.woman === a.woman)).concat(a);
+    assumeSel = { man: a.man, woman: a.woman };
+    saveAssumptions(); render();
+  } else if (d.dela != null) { assumptions.splice(+d.dela, 1); saveAssumptions(); render(); }
+  else if (t.id === 'aClear') { assumptions = []; whatIf = null; saveAssumptions(); render(); }
+  else if (t.id === 'aCalc') calcWhatIf();
+});
+window.addEventListener('hashchange', () => { err = ''; render(); window.scrollTo(0, 0); });
+
+loadData().then(() => { render(); poll(); });
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 // Utility functions for generating permutations
 
-import type { MatchPair } from './data.ts';
+import type { MatchPair } from './types.ts';
 
 function generatePermutations<T>(arr: T[]): T[][] {
   if (arr.length <= 1) return [arr];
