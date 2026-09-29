@@ -11,7 +11,7 @@ import {
   factorial,
   combination
 } from './probability.ts';
-import type { MatchPair, MatchboxResult, MatchingNight } from './data.ts';
+import type { MatchPair, MatchboxResult, MatchingNight } from './types.ts';
 import type { PairProbability, ImpossiblePair } from './probability.ts';
 
 describe('probability.ts', () => {

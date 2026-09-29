@@ -1,7 +1,7 @@
 import { parentPort, workerData } from 'worker_threads';
 import { getNthMatchCombination } from './permutations.ts';
 import { isValidCombination } from './validator.ts';
-import type { MatchingNight, MatchboxResult } from './data.ts';
+import type { MatchingNight, MatchboxResult } from './types.ts';
 
 interface WorkerData {
   startIndex: number;

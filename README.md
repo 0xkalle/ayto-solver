@@ -23,58 +23,34 @@ A Node.js application that solves the "Are You The One?" game show using brute f
 
 ## Usage
 
-### Basic Usage
+### Phone UI (server)
 ```bash
 npm start
 ```
-or
+Then open `http://<your-mac>.local:3000` on your phone (same Wi-Fi). The LAN URLs are printed on startup.
+Env vars: `PORT` (default 3000), `SEASON` (default `seasons/current.json`), e.g. `SEASON=seasons/aytonormal.json npm start`.
+
+API: `GET/PUT /api/data`, `GET /api/result`, `POST /api/what-if` (`{ "assumptions": [{ "man", "woman", "isMatch" }] }`).
+
+### CLI
 ```bash
-node ayto-solver.js
+npm run cli                                # seasons/current.json
+npm run cli -- seasons/reality_s4.json
 ```
 
-### Show Top N Results
-```bash
-node ayto-solver.js --top 5
-```
+## Data
 
-## Configuration
-
-Edit the `data.js` file to input your show's actual data:
-
-### 1. Contestants
-```javascript
-const menCandidates = ['john', 'mike', 'alex', ...];
-const womenCandidates = ['sarah', 'jessica', 'emma', ...];
-```
-
-### 2. Matchbox Results
-```javascript
-const matchboxResults = [
-  { man: 'john', woman: 'sarah', isMatch: true },
-  { man: 'mike', woman: 'emma', isMatch: false },
-  // ... more results
-];
-```
-
-### 3. Matching Night Results
-```javascript
-const matchingNights = [
-  { night: 1, man: 'john', woman: 'jessica', matchCount: 3 },
-  { night: 1, man: 'mike', woman: 'sarah', matchCount: 3 },
-  // ... all pairings for night 1
-
-  { night: 2, man: 'john', woman: 'sarah', matchCount: 2 },
-  // ... all pairings for night 2
-];
-```
+Each season is a JSON file in `seasons/` (shape: `SeasonData` in `types.ts`):
+`men`, `women`, `matchboxResults` (`{man, woman, isMatch}`), `matchingNights` (`{night, man, woman, matchCount}`, one entry per couple),
+`doubleMatchMan`/`doubleMatchWoman`, `excludedMen`/`excludedWomen` (or `null`).
 
 ## File Structure
 
-- `ayto-solver.js` - Main application and CLI interface
-- `data.js` - Configuration file for contestants and results
-- `permutations.js` - Utility functions for generating combinations
-- `validator.js` - Constraint validation logic
-- `probability.js` - Probability calculation engine
+- `server.ts` - HTTP server + API for the phone UI (`public/`)
+- `ayto-solver.ts` - `solve()` (multi-threaded) and CLI
+- `worker.ts` - worker thread that checks a chunk of combinations
+- `types.ts` - shared types
+- `permutations.ts`, `validator.ts`, `probability.ts` - combination, constraint and probability helpers
 
 ## How It Works
 
@@ -89,30 +65,6 @@ The solver uses:
 - **Constraint Satisfaction**: Hard constraints from matchbox results eliminate impossible combinations
 - **Bayesian Updates**: Soft constraints from matching nights update probability distributions
 - **Brute Force Search**: Exhaustive enumeration ensures no valid combination is missed
-
-## Example Output
-
-```
-🎯 AYTO SOLVER RESULTS
-================================================================================
-
-📊 SUMMARY:
-   Total possible combinations: 40320
-   Valid combinations: 7
-   Elimination rate: 100.0%
-
-🏆 TOP 5 MOST LIKELY PERFECT MATCH COMBINATIONS:
-1. PROBABILITY: 14.29%
-   Matches:
-   • john ↔ sarah
-   • mike ↔ jessica
-   ...
-
-💝 INDIVIDUAL PAIR PROBABILITIES:
-1. john ↔ sarah: 100.00%
-2. alex ↔ emma: 100.00%
-...
-```
 
 ## Notes
 

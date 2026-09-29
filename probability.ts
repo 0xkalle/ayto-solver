@@ -1,6 +1,6 @@
 // Probability calculation functions
 
-import type { MatchPair, MatchboxResult, MatchingNight } from './data.ts';
+import type { MatchPair, MatchboxResult, MatchingNight } from './types.ts';
 import { groupByNight } from './validator.ts';
 
 interface PairProbability {

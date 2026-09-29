@@ -1,0 +1,493 @@
+{
+  "men": [
+    "antonino",
+    "chris",
+    "lukas",
+    "alexander",
+    "tim",
+    "ozan",
+    "marcrobin",
+    "kaan",
+    "niko",
+    "lars"
+  ],
+  "women": [
+    "tara",
+    "emmy",
+    "asena",
+    "laural",
+    "gabriela",
+    "anastasia",
+    "nadja",
+    "jennifer",
+    "linda",
+    "lauram",
+    "dana"
+  ],
+  "matchboxResults": [
+    {
+      "man": "marcrobin",
+      "woman": "laural",
+      "isMatch": false
+    },
+    {
+      "man": "chris",
+      "woman": "emmy",
+      "isMatch": true
+    },
+    {
+      "man": "marcrobin",
+      "woman": "asena",
+      "isMatch": false
+    },
+    {
+      "man": "ozan",
+      "woman": "anastasia",
+      "isMatch": true
+    },
+    {
+      "man": "lukas",
+      "woman": "jennifer",
+      "isMatch": false
+    },
+    {
+      "man": "tim",
+      "woman": "linda",
+      "isMatch": true
+    }
+  ],
+  "matchingNights": [
+    {
+      "night": 7,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "anastasia",
+      "man": "ozan",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "lauram",
+      "man": "marcrobin",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "laural",
+      "man": "lars",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "tara",
+      "man": "kaan",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "asena",
+      "man": "antonino",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "nadja",
+      "man": "nico",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "dana",
+      "man": "lukas",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "linda",
+      "man": "tim",
+      "matchCount": 6
+    },
+    {
+      "night": 7,
+      "woman": "gabriela",
+      "man": "alexander",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "anastasia",
+      "man": "ozan",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "lauram",
+      "man": "marcrobin",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "dana",
+      "man": "lars",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "tara",
+      "man": "kaan",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "asena",
+      "man": "antonino",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "nadja",
+      "man": "nico",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "jennifer",
+      "man": "lukas",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "linda",
+      "man": "tim",
+      "matchCount": 6
+    },
+    {
+      "night": 6,
+      "woman": "gabriela",
+      "man": "alexander",
+      "matchCount": 6
+    },
+    {
+      "night": 5,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "jennifer",
+      "man": "lukas",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "laural",
+      "man": "niko",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "dana",
+      "man": "ozan",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "tara",
+      "man": "kaan",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "asena",
+      "man": "antonino",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "nadja",
+      "man": "lars",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "anastasia",
+      "man": "marcrobin",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "linda",
+      "man": "tim",
+      "matchCount": 5
+    },
+    {
+      "night": 5,
+      "woman": "gabriela",
+      "man": "alexander",
+      "matchCount": 5
+    },
+    {
+      "night": 4,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "gabriela",
+      "man": "lukas",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "anastasia",
+      "man": "niko",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "lauram",
+      "man": "ozan",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "asena",
+      "man": "kaan",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "nadja",
+      "man": "antonino",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "tara",
+      "man": "lars",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "linda",
+      "man": "marcrobin",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "laural",
+      "man": "tim",
+      "matchCount": 1
+    },
+    {
+      "night": 4,
+      "woman": "jennifer",
+      "man": "alexander",
+      "matchCount": 1
+    },
+    {
+      "night": 3,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "linda",
+      "man": "lukas",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "anastasia",
+      "man": "alexander",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "lauram",
+      "man": "ozan",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "dana",
+      "man": "tim",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "nadja",
+      "man": "antonino",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "gabriela",
+      "man": "lars",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "asena",
+      "man": "marcrobin",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "laural",
+      "man": "niko",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "woman": "jennifer",
+      "man": "kaan",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "lauram",
+      "man": "lukas",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "jennifer",
+      "man": "alexander",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "laural",
+      "man": "ozan",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "linda",
+      "man": "tim",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "dana",
+      "man": "antonino",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "anastasia",
+      "man": "lars",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "asena",
+      "man": "marcrobin",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "tara",
+      "man": "niko",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "woman": "nadja",
+      "man": "kaan",
+      "matchCount": 3
+    },
+    {
+      "night": 1,
+      "woman": "lauram",
+      "man": "antonino",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "emmy",
+      "man": "chris",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "jennifer",
+      "man": "lukas",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "laural",
+      "man": "alexander",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "linda",
+      "man": "tim",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "gabriela",
+      "man": "ozan",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "anastasia",
+      "man": "marcrobin",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "asena",
+      "man": "kaan",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "tara",
+      "man": "niko",
+      "matchCount": 2
+    },
+    {
+      "night": 1,
+      "woman": "nadja",
+      "man": "lars",
+      "matchCount": 2
+    }
+  ],
+  "doubleMatchMan": null,
+  "doubleMatchWoman": [
+    "dana"
+  ],
+  "excludedMen": [
+    "chris",
+    "ozan"
+  ],
+  "excludedWomen": [
+    "emmy",
+    "anastasia"
+  ]
+}
