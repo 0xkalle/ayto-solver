@@ -61,6 +61,7 @@ function validateMatchbox(list: unknown, men: string[], women: string[], what: s
 function validateSeason(d: any): string | null {
   if (!d || typeof d !== 'object') return 'body must be an object';
   if (!isStrArr(d.men) || !isStrArr(d.women)) return 'men and women must be string arrays';
+  if (new Set([...d.men, ...d.women]).size !== d.men.length + d.women.length) return 'names must be unique';
   const err = validateMatchbox(d.matchboxResults, d.men, d.women, 'matchboxResults');
   if (err) return err;
   if (!Array.isArray(d.matchingNights)) return 'matchingNights must be an array';

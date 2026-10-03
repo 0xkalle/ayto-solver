@@ -60,8 +60,9 @@ label.inline input { min-height: 0; width: 20px; height: 20px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 16px; padding: 4px 4px 4px 10px; font-size: 14px; }
 .chip button { min-height: 32px; min-width: 32px; padding: 0; background: transparent; color: var(--muted); }
-.nightpair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 8px; align-items: center; margin-bottom: 6px; }
+.nightpair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) 6.5em; gap: 8px; align-items: center; margin-bottom: 6px; }
 .nightpair select { width: 100%; }
+.nightpair .pct { text-align: right; font-variant-numeric: tabular-nums; font-size: 14px; }
 .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table.heat { border-collapse: collapse; font-size: 11px; }
 table.heat th, table.heat td { border: 1px solid var(--line); padding: 4px; text-align: center; min-width: 38px; }
@@ -177,11 +178,15 @@ function viewStats() {
     <button class="ghost" id="heatbtn">${heat ? 'List' : 'Heatmap'}</button></div>`;
   if (heat) {
     const m = {}; r.pairs.forEach(p => m[p.man + '|' + p.woman] = p.probability);
+    const box = new Map(data.matchboxResults.map(x => [x.man + '|' + x.woman, x.isMatch]));
     const f = filter.toLowerCase();
     const men = data.men.filter(n => n.includes(f)), women = data.women;
     html += `<div class="card scroll"><table class="heat"><thead><tr><th></th>${women.map(w => `<th>${cap(w)}</th>`).join('')}</tr></thead><tbody>` +
       men.map(mn => `<tr><th>${cap(mn)}</th>${women.map(w => { const p = m[mn + '|' + w] || 0;
-        return `<td style="background:rgba(130,90,255,${p.toFixed(3)});${p > .5 ? 'color:#fff' : ''}">${p ? Math.round(p * 100) : ''}</td>`; }).join('')}</tr>`).join('') +
+        const b = box.get(mn + '|' + w);
+        if (b === true) return '<td style="background:darkviolet;color:#fff" title="Matchbox: perfect match">✓</td>';
+        if (b === false) return '<td style="background:var(--bad);color:#fff" title="Matchbox: no match">✗</td>';
+        return `<td style="background:rgb(0,${Math.round(p * 255)},0);color:${p > .5 ? '#000' : '#fff'}">${p ? Math.round(p * 100) : ''}</td>`; }).join('')}</tr>`).join('') +
       '</tbody></table></div>';
   } else {
     const f = filter.toLowerCase();
@@ -206,8 +211,11 @@ function viewEntry() {
   <div class="card"><h2>Matching night</h2>
     <div class="row"><label>Night <input id="nNum" type="number" min="1" value="${nextNight}" style="width:80px"></label>
     <label>Lights <input id="nCount" type="number" min="0" max="${data.men.length}" value="0" style="width:80px"></label></div>
-    ${data.men.map(m => `<div class="nightpair"><span>${cap(m)}</span><select class="nSel" data-man="${esc(m)}"><option value="">—</option>${opts(data.women)}</select></div>`).join('')}
+    ${data.men.map(m => `<div class="nightpair"><span>${cap(m)}</span><select class="nSel" data-man="${esc(m)}"><option value="">—</option>${opts(data.women)}</select><span class="pct muted"></span></div>`).join('')}
     <button id="nAdd">Add night</button></div>
+  <div class="card"><h2>New candidate</h2>
+    <div class="row"><input id="cName" placeholder="Name"><select id="cSide"><option value="men">Man</option><option value="women">Woman</option></select>
+    <button id="cAdd">Add</button></div></div>
   <div class="card"><h2>Matchbox results</h2>
     ${data.matchboxResults.map((r, i) => `<div class="item"><span>${cap(r.man)} ↔ ${cap(r.woman)}</span>
       <b class="${r.isMatch ? 'good' : 'bad'}">${r.isMatch ? 'Match' : 'No match'}</b><button class="del" data-delmb="${i}">✕</button></div>`).join('') || '<p class="muted">None yet.</p>'}</div>
@@ -221,6 +229,15 @@ function updateNightSelects() {
   const sels = [...document.querySelectorAll('.nSel')];
   const used = sels.map(s => s.value);
   sels.forEach(s => [...s.options].forEach(o => { o.disabled = !!o.value && o.value !== s.value && used.includes(o.value); }));
+  const r = res && res.result, prob = {};
+  if (r) r.pairs.forEach(p => prob[p.man + '|' + p.woman] = p.probability);
+  const seen = {};
+  data.matchingNights.forEach(n => seen[n.man + '|' + n.woman] = (seen[n.man + '|' + n.woman] || 0) + 1);
+  sels.forEach(s => {
+    const k = s.dataset.man + '|' + s.value;
+    s.nextElementSibling.textContent = s.value ? [r ? pct(prob[k] || 0) : '', seen[k] ? seen[k] + '×' : ''].filter(Boolean).join(' · ') : '';
+    s.nextElementSibling.title = s.value ? `Paired in ${seen[k] || 0} previous night(s)` : '';
+  });
 }
 
 // ---------- Known ----------
@@ -304,6 +321,11 @@ document.addEventListener('click', e => {
     if (data.matchingNights.some(n => n.night === night)) { err = `Night ${night} already exists — delete it first.`; return render(); }
     if (matchCount > pairs.length) { err = 'More lights than pairs.'; return render(); }
     save({ ...data, matchingNights: [...data.matchingNights, ...pairs] });
+  } else if (t.id === 'cAdd') {
+    const name = $('#cName').value.trim().toLowerCase(), side = $('#cSide').value;
+    if (!name) { err = 'Enter a name.'; return render(); }
+    if (data.men.includes(name) || data.women.includes(name)) { err = `${name} already exists.`; return render(); }
+    if (confirm(`Add ${name} to ${side}? This will make the solve slower.`)) save({ ...data, [side]: [...data[side], name] });
   } else if (d.delmb != null) {
     if (confirm('Delete this matchbox result?')) save({ ...data, matchboxResults: data.matchboxResults.filter((_, i) => i !== +d.delmb) });
   } else if (d.delnight != null) {

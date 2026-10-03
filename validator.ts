@@ -22,6 +22,15 @@ function validateMatchboxConstraints(combination: MatchPair[], matchboxResults: 
       return false;
     }
   }
+
+  // A confirmed match means neither person is in a double match, unless a
+  // second confirmed match shares that person.
+  const confirmed = matchboxResults.filter(r => r.isMatch);
+  for (const r of confirmed) {
+    const count = (key: 'man' | 'woman', list: MatchPair[]) => list.filter(p => p[key] === r[key]).length;
+    if (count('man', combination) !== count('man', confirmed)) return false;
+    if (count('woman', combination) !== count('woman', confirmed)) return false;
+  }
   return true;
 }
 

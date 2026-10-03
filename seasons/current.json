@@ -34,6 +34,26 @@
       "man": "robin",
       "woman": "marta",
       "isMatch": false
+    },
+    {
+      "man": "daymian",
+      "woman": "julia",
+      "isMatch": false
+    },
+    {
+      "man": "johannes",
+      "woman": "marta",
+      "isMatch": true
+    },
+    {
+      "man": "johannes",
+      "woman": "janice",
+      "isMatch": true
+    },
+    {
+      "man": "bennett",
+      "woman": "julia",
+      "isMatch": false
     }
   ],
   "matchingNights": [
@@ -96,12 +116,190 @@
       "man": "robin",
       "woman": "jenny",
       "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "bennett",
+      "woman": "joena",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "brian",
+      "woman": "alexandra",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "cansin",
+      "woman": "zoe",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "daymian",
+      "woman": "jenny",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "fabi",
+      "woman": "julia",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "germain",
+      "woman": "emma",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "marwin",
+      "woman": "michelle",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "johannes",
+      "woman": "janice",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "raul",
+      "woman": "marta",
+      "matchCount": 3
+    },
+    {
+      "night": 2,
+      "man": "robin",
+      "woman": "christin",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "bennett",
+      "woman": "julia",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "brian",
+      "woman": "francesca",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "cansin",
+      "woman": "jenny",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "daymian",
+      "woman": "zoe",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "fabi",
+      "woman": "emma",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "germain",
+      "woman": "alexandra",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "marwin",
+      "woman": "joena",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "johannes",
+      "woman": "marta",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "raul",
+      "woman": "michelle",
+      "matchCount": 3
+    },
+    {
+      "night": 3,
+      "man": "robin",
+      "woman": "christin",
+      "matchCount": 3
+    },
+    {
+      "night": 4,
+      "man": "bennett",
+      "woman": "christin",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "brian",
+      "woman": "alexandra",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "cansin",
+      "woman": "julia",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "daymian",
+      "woman": "jenny",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "fabi",
+      "woman": "zoe",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "germain",
+      "woman": "michelle",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "marwin",
+      "woman": "emma",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "johannes",
+      "woman": "marta",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "raul",
+      "woman": "francesca",
+      "matchCount": 4
+    },
+    {
+      "night": 4,
+      "man": "robin",
+      "woman": "joena",
+      "matchCount": 4
     }
   ],
   "doubleMatchMan": null,
-  "doubleMatchWoman": [
-    "joena"
-  ],
+  "doubleMatchWoman": null,
   "excludedMen": null,
   "excludedWomen": null
 }

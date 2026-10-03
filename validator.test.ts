@@ -70,6 +70,20 @@ describe('validator.ts', () => {
       const result = validateMatchboxConstraints(testCombination, []);
       assert.strictEqual(result, true);
     });
+
+    it('should keep confirmed matches out of the double match unless confirmed twice', () => {
+      const combo: MatchPair[] = [
+        { man: 'xander', woman: 'elli' },
+        { man: 'xander', woman: 'sandra' },
+        { man: 'olli', woman: 'henna' }
+      ];
+      const once: MatchboxResult[] = [{ man: 'xander', woman: 'elli', isMatch: true }];
+      assert.strictEqual(validateMatchboxConstraints(combo, once), false);
+      const twice: MatchboxResult[] = [...once, { man: 'xander', woman: 'sandra', isMatch: true }];
+      assert.strictEqual(validateMatchboxConstraints(combo, twice), true);
+      const woman: MatchboxResult[] = [{ man: 'olli', woman: 'henna', isMatch: true }];
+      assert.strictEqual(validateMatchboxConstraints([...combo, { man: 'nico', woman: 'henna' }], woman), false);
+    });
   });
 
   describe('validateMatchingNight', () => {
